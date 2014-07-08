@@ -1,18 +1,14 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-    User = mongoose.model('User'),
-    passport = require('passport'),
-    Promise = require('bluebird'),
-    Player = mongoose.model('Player'),
-    Screen = mongoose.model('Screen');
+    User = mongoose.model('User');
 
 module.exports = {
   /**
    * Create user
    */
 
-  create: function (req, res, next) {
+  create: function (req, res) {
     var newUser = new User(req.body);
     newUser.provider = 'local';
     newUser.save(function(err, user) {
@@ -21,33 +17,7 @@ module.exports = {
         return res.json(400, err);
       }
 
-      /**
-       * Create new player with random mapId
-       */
-      console.log(req.body);
-      // update player with new mapId
-      return Screen.findAsync()
-      .then(function(screens) {
-        var mapId = screens[0]._id;
-        var newPlayer = new Player({
-          user: user._id,
-          username: req.body.name,
-          mapId: mapId
-        });
-
-        newPlayer.save(function(err, result) {
-          if (err) {
-            console.log('ERROR with player', err);
-            return res.json(400, err);
-          }
-
-          req.logIn(newUser, function(err) {
-            if (err) return next(err);
-
-            return res.json(req.user.userInfo);
-          });
-        });
-      });
+      return res.json(user.userInfo);
       
     });
   },

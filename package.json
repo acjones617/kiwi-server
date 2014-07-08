@@ -1,11 +1,10 @@
 {
-  "name": "kom",
+  "name": "kiwi-server",
   "version": "0.0.0",
   "dependencies": {
     "bluebird": "~2.1.2",
     "body-parser": "~1.0.0",
     "compression": "~1.0.1",
-    "connect-mongo": "mrzepinski/connect-mongo#2135988",
     "cookie-parser": "~1.0.1",
     "cors": "^2.3.1",
     "ejs": "~0.8.4",
@@ -25,11 +24,14 @@
     "mocha": "^1.20.1"
   },
   "devDependencies": {
+    "supertest": "latest",
+    "faker": "latest"
   },
   "engines": {
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "grunt test"
+    "test": "jasmine-node spec/ --captureExceptions --autotest --color --watch server/ spec/",
+    "server": "node server.js"
   }
 }

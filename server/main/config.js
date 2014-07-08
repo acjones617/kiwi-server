@@ -29,7 +29,7 @@ module.exports = exports = function (app, express, routers) {
   mongoose.connect(app.get('DB_URL'));
 
   // Bootstrap and promisify models
-  var User = require('../user/user_model');
+  var User = require('../user/user-model');
 
   Promise.promisifyAll(User);
   Promise.promisifyAll(mongoose);
