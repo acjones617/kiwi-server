@@ -21,17 +21,18 @@
     "static-favicon": "~1.0.1",
     "supertest": "^0.13.0",
     "jwt-simple": "latest",
-    "mocha": "^1.20.1"
+    "mocha": "^1.20.1",
+    "koa": "~0.8.1"
   },
   "devDependencies": {
     "supertest": "latest",
     "faker": "latest"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=0.11.9"
   },
   "scripts": {
     "test": "jasmine-node spec/ --captureExceptions --autotest --color --watch server/ spec/",
-    "server": "node server.js"
+    "server": "node --harmony server.js"
   }
 }
