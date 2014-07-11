@@ -22,7 +22,8 @@
     "supertest": "^0.13.0",
     "jwt-simple": "latest",
     "mocha": "^1.20.1",
-    "koa": "~0.8.1"
+    "koa": "~0.8.1",
+    "mssql": "~1.0.2"
   },
   "devDependencies": {
     "supertest": "latest",
