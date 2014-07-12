@@ -16,21 +16,6 @@ module.exports = exports = function (app, express, routers) {
   app.use(morgan('dev'));
   app.use(bodyParser());
   app.use(methodOverride());
-  app.use(cookieParser());
-
-  // Persist sessions with mongoStore
-  app.use(session({
-    secret: 'angular-fullstack secret',
-    maxAge: 3600000,
-    store: new mongoStore({
-      url: app.get('DB_URL'),
-      collection: 'sessions'
-    }, function () {
-      console.log('db connection open');
-    })
-  }));
-
-  // app.use(session({ secret: '09v2#jkb!' }));
 
   // Use passport session
   app.use(passport.initialize());
