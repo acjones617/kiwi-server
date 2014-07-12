@@ -18,7 +18,7 @@ require('./config.js')(app, express, routers);
 
 require('../user/user-routes')(UserRouter);
 require('../session/session-routes')(SessionRouter);
-require('./notFound')(NotFoundRouter);
+// require('./notFound')(NotFoundRouter);
 
 module.exports = exports = app;
 

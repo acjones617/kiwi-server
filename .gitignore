@@ -1,2 +1,2 @@
 node_modules/
-server/config_db.js
+server/main/config_db_development.js
