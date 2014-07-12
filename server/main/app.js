@@ -6,19 +6,19 @@ var app          = express();
 /* Router */
 var UserRouter        = express.Router();
 var SessionRouter     = express.Router();
-var NotFoundRouter    = express.Router();
+var SchemaRouter      = express.Router();
 
 var routers = {};
 
 routers.UserRouter        = UserRouter;
 routers.SessionRouter     = SessionRouter;
-routers.NotFoundRouter    = NotFoundRouter;
+routers.SchemaRouter      = SchemaRouter;
 
 require('./config.js')(app, express, routers);
 
 require('../user/user-routes')(UserRouter);
 require('../session/session-routes')(SessionRouter);
-// require('./notFound')(NotFoundRouter);
+require('../schema/schema-routes')(SchemaRouter);
 
 module.exports = exports = app;
 
