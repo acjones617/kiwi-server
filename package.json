@@ -29,11 +29,8 @@
     "supertest": "latest",
     "faker": "latest"
   },
-  "engines": {
-    "node": ">=0.11.9"
-  },
   "scripts": {
     "test": "jasmine-node spec/ --captureExceptions --autotest --color --watch server/ spec/",
-    "server": "node --harmony server.js"
+    "server": "node server.js"
   }
 }
