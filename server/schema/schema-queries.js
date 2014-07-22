@@ -1,7 +1,12 @@
-var qCreateUsers =
+// must drop tables in appropriate order based on foreign keys
+var qDropTables =
+  "IF OBJECT_ID('dbo.kiwis', 'U') IS NOT NULL\n" +
+    "DROP TABLE dbo.kiwis;\n" +
   "IF OBJECT_ID('dbo.users', 'U') IS NOT NULL\n" +
-    "DROP TABLE dbo.users;\n" +
+    "DROP TABLE dbo.users;\n"
 
+
+var qCreateUsers =
   "CREATE TABLE dbo.users\n" +
     "(id int IDENTITY(1,1) PRIMARY KEY,\n" +
     "id_account_level int,\n" +
@@ -28,21 +33,19 @@ var qCreateUsers =
 
 
 var qCreateKiwis =
-  "IF OBJECT_ID('dbo.kiwis', 'U') IS NOT NULL\n" +
-    "DROP TABLE dbo.kiwis;\n" +
-
   "CREATE TABLE dbo.kiwis\n" +
     "(id int IDENTITY(1,1) PRIMARY KEY,\n" +
     "user_id int FOREIGN KEY REFERENCES users(id),\n" +
     "title varchar(255),\n" +
     "path varchar(255),\n" +
     "url varchar(1000),\n" +
-    "last_updated datetime\n" +
-    "update_frequency_in_minutes int DEFAULT 1440\n" +
-    "next_update AS DATEADD (minute, update_frequency_in_minutes, last_update)\n" +
-    "created_at datetime DEFAULT GETDATE()),\n";
+    "last_updated datetime,\n" +
+    "update_frequency_in_minutes int DEFAULT 1440,\n" +
+    "next_update AS DATEADD (minute, update_frequency_in_minutes, last_updated),\n" +
+    "created_at datetime DEFAULT GETDATE())";
 
 var queries = {
+  dropTables: qDropTables,
   createUsers: qCreateUsers,
   createKiwis: qCreateKiwis
 };
