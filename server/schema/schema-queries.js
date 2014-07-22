@@ -1,13 +1,13 @@
 // must drop tables in appropriate order based on foreign keys
 var qDropTables =
+  "IF OBJECT_ID('dbo.groups', 'U') IS NOT NULL\n" +
+    "DROP TABLE dbo.groups;\n"
   "IF OBJECT_ID('dbo.kiwis', 'U') IS NOT NULL\n" +
     "DROP TABLE dbo.kiwis;\n" +
   "IF OBJECT_ID('dbo.users', 'U') IS NOT NULL\n" +
     "DROP TABLE dbo.users;\n"
   "IF OBJECT_ID('dbo.account_level', 'U') IS NOT NULL\n" +
-    "DROP TABLE dbo.account_level;\n"
-
-
+    "DROP TABLE dbo.account_level;\n"  
 
 var qCreateAccountLevel = 
   "CREATE TABLE dbo.account_level\n" +
@@ -36,11 +36,22 @@ var qCreateKiwis =
     "next_update AS DATEADD (minute, update_frequency_in_minutes, last_updated),\n" +
     "created_at datetime DEFAULT GETDATE())";
 
+var qCreateGroups =
+  "CREATE TABLE dbo.groups\n" +
+    "(id int IDENTITY(1,1) PRIMARY KEY,\n" +
+    "user_id int FOREIGN KEY REFERENCES users(id),\n" +
+    "name varchar(255),\n" +
+    "description varchar(1000),\n" +
+    "is_public bit DEFAULT 0,\n" +
+    "created_at datetime DEFAULT GETDATE())";
+
+
 var queries = {
   dropTables: qDropTables,
   createAccountLevel: qCreateAccountLevel,
   createUsers: qCreateUsers,
-  createKiwis: qCreateKiwis
+  createKiwis: qCreateKiwis,
+  createGroups: qCreateGroups
 };
 
 module.exports = queries;
