@@ -29,7 +29,11 @@ module.exports = {
           return request.queryAsync(query.createKiwis);
         })
         .then(function() {
-          console.log('kiwi success!!!!');
+          console.log('group success!!!!');
+          return request.queryAsync(query.createGroups);
+        })
+        .then(function() {
+          console.log('group success!!!!');
           res.end('success!');
         })
         .catch(function(err) {
