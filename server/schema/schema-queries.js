@@ -4,33 +4,25 @@ var qDropTables =
     "DROP TABLE dbo.kiwis;\n" +
   "IF OBJECT_ID('dbo.users', 'U') IS NOT NULL\n" +
     "DROP TABLE dbo.users;\n"
+  "IF OBJECT_ID('dbo.account_level', 'U') IS NOT NULL\n" +
+    "DROP TABLE dbo.account_level;\n"
 
+
+
+var qCreateAccountLevel = 
+  "CREATE TABLE dbo.account_level\n" +
+    "(id int IDENTITY(1,1) PRIMARY KEY,\n" +
+    "level varchar(255),\n" +
+    "permissions varchar(255))";
 
 var qCreateUsers =
   "CREATE TABLE dbo.users\n" +
     "(id int IDENTITY(1,1) PRIMARY KEY,\n" +
-    "id_account_level int,\n" +
+    "id_account_level int FOREIGN KEY REFERENCES account_level(id),\n" +
     "email varchar(255) NOT NULL,\n" +
     "hash_password varchar(255) NOT NULL,\n" +
     "notified bit,\n" +
     "created_at datetime DEFAULT GETDATE());";
-
-
-// DROP TABLE IF EXISTS `kiwis`;
-    
-// CREATE TABLE `kiwis` (
-//   `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
-//   `id_users` INTEGER NULL DEFAULT NULL,
-//   `title` VARCHAR(255) NULL DEFAULT NULL,
-//   `path` VARCHAR(255) NULL DEFAULT NULL,
-//   `url` VARCHAR(1000) NULL DEFAULT NULL,
-//   `created_at` DATETIME NULL DEFAULT NULL,
-//   `last_updated` DATETIME NULL DEFAULT NULL,
-//   `update_frequency_in_minutes` INTEGER NULL DEFAULT NULL,
-//   `next_update` DATETIME NULL DEFAULT NULL,
-//   PRIMARY KEY (`id`)
-// );
-
 
 var qCreateKiwis =
   "CREATE TABLE dbo.kiwis\n" +
@@ -46,6 +38,7 @@ var qCreateKiwis =
 
 var queries = {
   dropTables: qDropTables,
+  createAccountLevel: qCreateAccountLevel,
   createUsers: qCreateUsers,
   createKiwis: qCreateKiwis
 };
