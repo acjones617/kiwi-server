@@ -30,6 +30,10 @@ module.exports = {
         })
         .then(function() {
           console.log('kiwi success!!!!');
+          return request.queryAsync(query.createKiwiValues);
+        })
+        .then(function() {
+          console.log('kiwi-values success!!!!');
           return request.queryAsync(query.createGroups);
         })
         .then(function() {

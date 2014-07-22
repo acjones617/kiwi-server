@@ -1,15 +1,17 @@
 // must drop tables in appropriate order based on foreign keys
 var qDropTables =
   "IF OBJECT_ID('dbo.kiwi_group', 'U') IS NOT NULL\n" +
-    "DROP TABLE dbo.kiwi_group;\n"
+    "DROP TABLE dbo.kiwi_group;\n" +
   "IF OBJECT_ID('dbo.groups', 'U') IS NOT NULL\n" +
-    "DROP TABLE dbo.groups;\n"
+    "DROP TABLE dbo.groups;\n" +
+  "IF OBJECT_ID('dbo.kiwi_values', 'U') IS NOT NULL\n" +
+    "DROP TABLE dbo.kiwi_values;\n" +
   "IF OBJECT_ID('dbo.kiwis', 'U') IS NOT NULL\n" +
     "DROP TABLE dbo.kiwis;\n" +
   "IF OBJECT_ID('dbo.users', 'U') IS NOT NULL\n" +
-    "DROP TABLE dbo.users;\n"
+    "DROP TABLE dbo.users;\n" +
   "IF OBJECT_ID('dbo.account_level', 'U') IS NOT NULL\n" +
-    "DROP TABLE dbo.account_level;\n"  
+    "DROP TABLE dbo.account_level;\n";
 
 var qCreateAccountLevel = 
   "CREATE TABLE dbo.account_level\n" +
@@ -38,6 +40,13 @@ var qCreateKiwis =
     "next_update AS DATEADD (minute, update_frequency_in_minutes, last_updated),\n" +
     "created_at datetime DEFAULT GETDATE())";
 
+var qCreateKiwiValues =
+  "CREATE TABLE dbo.kiwi_values\n" +
+    "(id int IDENTITY(1,1) PRIMARY KEY,\n" +
+    "kiwi_id int FOREIGN KEY REFERENCES kiwis(id),\n" +
+    "date datetime DEFAULT GETDATE(),\n" +
+    "value float)";
+
 var qCreateGroups =
   "CREATE TABLE dbo.groups\n" +
     "(id int IDENTITY(1,1) PRIMARY KEY,\n" +
@@ -54,12 +63,12 @@ var qCreateKiwiGroup =
     "kiwi_id int FOREIGN KEY REFERENCES kiwis(id),\n" +
     "created_at datetime DEFAULT GETDATE())";
 
-
 var queries = {
   dropTables: qDropTables,
   createAccountLevel: qCreateAccountLevel,
   createUsers: qCreateUsers,
   createKiwis: qCreateKiwis,
+  createKiwiValues: qCreateKiwiValues,
   createGroups: qCreateGroups,
   createKiwiGroup: qCreateKiwiGroup
 };
