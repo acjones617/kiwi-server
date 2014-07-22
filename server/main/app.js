@@ -16,8 +16,8 @@ routers.SchemaRouter      = SchemaRouter;
 
 require('./config.js')(app, express, routers);
 
-require('../user/user-routes')(UserRouter);
-require('../session/session-routes')(SessionRouter);
+// require('../user/user-routes')(UserRouter);
+// require('../session/session-routes')(SessionRouter);
 require('../schema/schema-routes')(SchemaRouter);
 
 module.exports = exports = app;

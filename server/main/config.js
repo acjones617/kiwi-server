@@ -5,6 +5,7 @@ var bodyParser     = require('body-parser'),
     morgan         = require('morgan'),
     methodOverride = require('method-override'),
     cors           = require('cors'),
+    passport       = require('passport'),
     Promise        = require('bluebird');
 
 /*
@@ -29,8 +30,6 @@ module.exports = exports = function (app, express, routers) {
   // app.use(cors());
 
   app.use('/schema' , routers.SchemaRouter);
-  app.use('/api/session', routers.SessionRouter);
-  app.use('/api/users' , routers.UserRouter);
   // app.use('/api/*', routers.NotFoundRouter);
 
   app.use(middle.logError);
