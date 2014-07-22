@@ -1,5 +1,7 @@
 // must drop tables in appropriate order based on foreign keys
 var qDropTables =
+  "IF OBJECT_ID('dbo.kiwi_group', 'U') IS NOT NULL\n" +
+    "DROP TABLE dbo.kiwi_group;\n"
   "IF OBJECT_ID('dbo.groups', 'U') IS NOT NULL\n" +
     "DROP TABLE dbo.groups;\n"
   "IF OBJECT_ID('dbo.kiwis', 'U') IS NOT NULL\n" +
@@ -45,13 +47,21 @@ var qCreateGroups =
     "is_public bit DEFAULT 0,\n" +
     "created_at datetime DEFAULT GETDATE())";
 
+var qCreateKiwiGroup =
+  "CREATE TABLE dbo.kiwi_group\n" +
+    "(id int IDENTITY(1,1) PRIMARY KEY,\n" +
+    "group_id int FOREIGN KEY REFERENCES groups(id),\n" +
+    "kiwi_id int FOREIGN KEY REFERENCES kiwis(id),\n" +
+    "created_at datetime DEFAULT GETDATE())";
+
 
 var queries = {
   dropTables: qDropTables,
   createAccountLevel: qCreateAccountLevel,
   createUsers: qCreateUsers,
   createKiwis: qCreateKiwis,
-  createGroups: qCreateGroups
+  createGroups: qCreateGroups,
+  createKiwiGroup: qCreateKiwiGroup
 };
 
 module.exports = queries;
