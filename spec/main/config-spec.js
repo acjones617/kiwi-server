@@ -10,8 +10,7 @@ describe("config", function () {
     app     = express();
 
     routers = {};
-    routers.LoginRouter       = express.Router();
-    routers.UserRouter        = express.Router();
+    routers.SchemaRouter      = express.Router();
   });
 
   it("check config is a function", function () {
@@ -20,7 +19,7 @@ describe("config", function () {
 
   it("check port is set", function () {
     config(app, express, routers);
-    expect(app.get('port')).toEqual(9000);
+    expect(app.get('port')).toEqual(3000);
   });
 
   it("check base url is set", function () {

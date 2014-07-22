@@ -1,11 +1,30 @@
-var app = require('../../server/main/app.js');
+var config = require('../../server/main/config.js');
 
-describe("app", function () {
-  it("check app is a function", function () {
-    expect(typeof app).toEqual("function");
-  });
-  it("check routers are set", function () {
-    expect(typeof app._router).toEqual("function");
+describe("config", function () {
+  var express,
+      app,
+      routers;
 
+  beforeEach(function() {
+    express = require('express');
+    app     = express();
+
+    routers = {};
+    routers.SchemaRouter      = express.Router();
   });
+
+  it("check config is a function", function () {
+    expect(typeof config).toEqual("function");
+  });
+
+  it("check port is set", function () {
+    config(app, express, routers);
+    expect(app.get('port')).toEqual(3000);
+  });
+
+  it("check base url is set", function () {
+    config(app, express, routers);
+    expect(app.get('base url')).toEqual('http://localhost');
+  });
+
 });
