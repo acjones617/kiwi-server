@@ -1,6 +1,51 @@
+var qCreateUsers =
+  "IF OBJECT_ID('dbo.users', 'U') IS NOT NULL\n" +
+    "DROP TABLE dbo.users;\n" +
+
+  "CREATE TABLE dbo.users\n" +
+    "(id int IDENTITY(1,1) PRIMARY KEY,\n" +
+    "id_account_level int,\n" +
+    "email varchar(255) NOT NULL,\n" +
+    "hash_password varchar(255) NOT NULL,\n" +
+    "notified bit,\n" +
+    "created_at datetime DEFAULT GETDATE());";
+
+
+// DROP TABLE IF EXISTS `kiwis`;
+    
+// CREATE TABLE `kiwis` (
+//   `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
+//   `id_users` INTEGER NULL DEFAULT NULL,
+//   `title` VARCHAR(255) NULL DEFAULT NULL,
+//   `path` VARCHAR(255) NULL DEFAULT NULL,
+//   `url` VARCHAR(1000) NULL DEFAULT NULL,
+//   `created_at` DATETIME NULL DEFAULT NULL,
+//   `last_updated` DATETIME NULL DEFAULT NULL,
+//   `update_frequency_in_minutes` INTEGER NULL DEFAULT NULL,
+//   `next_update` DATETIME NULL DEFAULT NULL,
+//   PRIMARY KEY (`id`)
+// );
+
+
+var qCreateKiwis =
+  "IF OBJECT_ID('dbo.kiwis', 'U') IS NOT NULL\n" +
+    "DROP TABLE dbo.kiwis;\n" +
+
+  "CREATE TABLE dbo.kiwis\n" +
+    "(id int IDENTITY(1,1) PRIMARY KEY,\n" +
+    "user_id int FOREIGN KEY REFERENCES users(id),\n" +
+    "title varchar(255),\n" +
+    "path varchar(255),\n" +
+    "url varchar(1000),\n" +
+    "last_updated datetime\n" +
+    "update_frequency_in_minutes int DEFAULT 1440\n" +
+    "next_update AS DATEADD (minute, update_frequency_in_minutes, last_update)\n" +
+    "created_at datetime DEFAULT GETDATE()),\n";
+
 var queries = {
-   createUser: 'CREATE TABLE dbo.users'//...
-}
+  createUsers: qCreateUsers,
+  createKiwis: qCreateKiwis
+};
 
 module.exports = queries;
 
