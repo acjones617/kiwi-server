@@ -18,10 +18,14 @@ module.exports = {
         request.queryAsync(query.dropTables)
         .then(function() {
           console.log('dropped tables');
+          return request.queryAsync(query.createAccountLevel);
+        })
+        .then(function() {
+          console.log('create account level');
           return request.queryAsync(query.createUsers);
         })
         .then(function() {
-          console.log('success!!!');
+          console.log('user success!!!');
           return request.queryAsync(query.createKiwis);
         })
         .then(function() {
