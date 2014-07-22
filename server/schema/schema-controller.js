@@ -15,10 +15,18 @@ module.exports = {
         var request = new sql.Request(connection);
         Promise.promisifyAll(request);
 
-        request.queryAsync(query.createUsers)
-        .then(function(result) {
-          console.log('success!!!', result);
-          res.end(200);
+        request.queryAsync(query.dropTables)
+        .then(function() {
+          console.log('dropped tables');
+          return request.queryAsync(query.createUsers);
+        })
+        .then(function() {
+          console.log('success!!!');
+          return request.queryAsync(query.createKiwis);
+        })
+        .then(function() {
+          console.log('kiwi success!!!!');
+          res.end('success!');
         })
         .catch(function(err) {
           console.log('error!!!!', err);
