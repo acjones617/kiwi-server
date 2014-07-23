@@ -1,6 +1,6 @@
 "use strict";
 
-var controller = require('./auth_controller');
+var controller = require('./auth-controller');
 
 module.exports = function(router) {
   router.route('/login')
