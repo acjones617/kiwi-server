@@ -22,6 +22,10 @@ module.exports = {
         })
         .then(function() {
           console.log('create account level');
+          return request.queryAsync(query.createAuthStrategy);
+        })
+        .then(function() {
+          console.log('create auth strategy');
           return request.queryAsync(query.createUsers);
         })
         .then(function() {
@@ -42,10 +46,15 @@ module.exports = {
         })
         .then(function() {
           console.log('kiwi-group success!!!!');
+          return request.queryAsync(query.insertSeedData);
+        })
+        .then(function() {
+          console.log('insert success!!!!');
           res.end('success!');
         })
         .catch(function(err) {
           console.log('error!!!!', err);
+          res.send('error!');
         });
       }
     })
