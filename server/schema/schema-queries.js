@@ -10,8 +10,10 @@ var qDropTables =
     "DROP TABLE dbo.kiwis;\n" +
   "IF OBJECT_ID('dbo.users', 'U') IS NOT NULL\n" +
     "DROP TABLE dbo.users;\n" +
+  "IF OBJECT_ID('dbo.auth_strategy', 'U') IS NOT NULL\n" +
+    "DROP TABLE dbo.auth_strategy;\n" +
   "IF OBJECT_ID('dbo.account_level', 'U') IS NOT NULL\n" +
-    "DROP TABLE dbo.account_level;\n";
+    "DROP TABLE dbo.account_level;";
 
 var qCreateAccountLevel = 
   "CREATE TABLE dbo.account_level\n" +
@@ -19,14 +21,21 @@ var qCreateAccountLevel =
     "level varchar(255),\n" +
     "permissions varchar(255))";
 
+var qCreateAuthStrategy = 
+  "CREATE TABLE dbo.auth_strategy\n" +
+    "(id int IDENTITY(1,1) PRIMARY KEY,\n" +
+    "strategy varchar(255))"
+
 var qCreateUsers =
   "CREATE TABLE dbo.users\n" +
     "(id int IDENTITY(1,1) PRIMARY KEY,\n" +
-    "id_account_level int FOREIGN KEY REFERENCES account_level(id),\n" +
+    "id_account_level int FOREIGN KEY REFERENCES account_level(id) DEFAULT 1,\n" +
     "email varchar(255) NOT NULL,\n" +
     "hash_password varchar(255) NOT NULL,\n" +
-    "notified bit,\n" +
-    "created_at datetime DEFAULT GETDATE());";
+    "notified bit DEFAULT 0,\n" +
+    "auth_strategy int FOREIGN KEY REFERENCES auth_strategy(id) DEFAULT 1,\n" +
+    "created_at datetime DEFAULT GETDATE()\n" +
+    "CONSTRAINT AK_email UNIQUE(email));";
 
 var qCreateKiwis =
   "CREATE TABLE dbo.kiwis\n" +
@@ -63,14 +72,25 @@ var qCreateKiwiGroup =
     "kiwi_id int FOREIGN KEY REFERENCES kiwis(id),\n" +
     "created_at datetime DEFAULT GETDATE())";
 
+var qInsertSeedData =
+  "INSERT INTO dbo.account_level (level, permissions)\n" +
+  "VALUES ('basic', 'all');\n" +
+  "INSERT INTO dbo.account_level (level, permissions)\n" +
+  "VALUES ('paid', 'all');\n" +
+  "INSERT INTO dbo.auth_strategy (strategy)\n" +
+  "VALUES ('local');";
+  
+
 var queries = {
   dropTables: qDropTables,
   createAccountLevel: qCreateAccountLevel,
+  createAuthStrategy: qCreateAuthStrategy,
   createUsers: qCreateUsers,
   createKiwis: qCreateKiwis,
   createKiwiValues: qCreateKiwiValues,
   createGroups: qCreateGroups,
-  createKiwiGroup: qCreateKiwiGroup
+  createKiwiGroup: qCreateKiwiGroup,
+  insertSeedData: qInsertSeedData
 };
 
 module.exports = queries;
