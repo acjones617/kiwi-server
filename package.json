@@ -2,6 +2,7 @@
   "name": "kiwi-server",
   "version": "0.0.0",
   "dependencies": {
+    "bcrypt": "^0.7.8",
     "bluebird": "~2.1.2",
     "body-parser": "~1.0.0",
     "compression": "~1.0.1",
@@ -11,20 +12,19 @@
     "errorhandler": "~1.0.0",
     "express": "~4.0.0",
     "express-session": "~1.0.2",
+    "jsonwebtoken": "~0.4.1",
+    "jwt-simple": "latest",
     "lodash": "~2.4.1",
     "method-override": "~1.0.0",
+    "mocha": "^1.20.1",
     "mongoose": "~3.8.8",
     "morgan": "~1.0.0",
+    "mssql": "~1.0.2",
     "passport": "~0.2.0",
     "passport-local": "~0.1.6",
     "socket.io": "^1.0.4",
     "static-favicon": "~1.0.1",
-    "supertest": "^0.13.0",
-    "jwt-simple": "latest",
-    "mocha": "^1.20.1",
-    "koa": "~0.8.1",
-    "mssql": "~1.0.2",
-    "jsonwebtoken": "~0.4.1"
+    "supertest": "^0.13.0"
   },
   "devDependencies": {
     "supertest": "latest",
