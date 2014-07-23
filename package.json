@@ -23,7 +23,8 @@
     "jwt-simple": "latest",
     "mocha": "^1.20.1",
     "koa": "~0.8.1",
-    "mssql": "~1.0.2"
+    "mssql": "~1.0.2",
+    "jsonwebtoken": "~0.4.1"
   },
   "devDependencies": {
     "supertest": "latest",
