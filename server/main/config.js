@@ -30,6 +30,11 @@ module.exports = exports = function (app, express, routers) {
   // app.use(cors());
 
   app.use('/schema' , routers.SchemaRouter);
+  app.use('/auth', routers.AuthRouter);
+
+  // app.use('/api', expressJwt({secret: process.env.ADMIN_SECRET || 'admin'}));
+  // app.use('/public', expressJwt({secret: process.env.USER_SECRET || 'user'}));
+
   // app.use('/api/*', routers.NotFoundRouter);
 
   app.use(middle.logError);
