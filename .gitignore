@@ -1,3 +1,4 @@
 node_modules/
 npm-debug.log
 server/main/config_db_development.js
+build/

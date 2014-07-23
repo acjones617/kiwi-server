@@ -5,7 +5,7 @@ var bodyParser     = require('body-parser'),
     morgan         = require('morgan'),
     methodOverride = require('method-override'),
     cors           = require('cors'),
-    passport       = require('passport'),
+    passport       = require('../auth/passport-config'),
     Promise        = require('bluebird');
 
 /*
@@ -18,9 +18,7 @@ module.exports = exports = function (app, express, routers) {
   app.use(bodyParser());
   app.use(methodOverride());
 
-  // Use passport session
   app.use(passport.initialize());
-  app.use(passport.session());
 
 
   app.set('port', process.env.PORT || 3000);

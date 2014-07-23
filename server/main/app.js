@@ -17,7 +17,7 @@ routers.AuthRouter        = AuthRouter;
 require('./config.js')(app, express, routers);
 
 require('../schema/schema-routes')(SchemaRouter);
-require('../auth/auth-routes')(SessionRouter);
+require('../auth/auth-routes')(AuthRouter);
 
 module.exports = exports = app;
 
