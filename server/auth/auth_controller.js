@@ -14,23 +14,20 @@ var sendJwt = function(req, res) {
   var tokenSecret = process.env.SECRET_JWT || 'super secret token'
   // expires in one year
   var token = jwt.sign({ email: req.body.email }, tokenSecret, { expiresInMinutes: 60 * 24 * 365 });
+  console.log(token);
   res.json(201, { 'kiwiToken': token });
 }
 
 module.exports = {
 
   /**
-   * Logout - client deletes their JWT
-   */
-
-  /**
-   * Login
+   * Logout - client deletes their JWT from local storage & redirects to login
    */
 
   login: function (req, res, next) {
     passport.authenticate('local', function(err, user, info) {
       var error = err || info;
-      if (error) return res.json(401, error);
+      if (error) return res.json(401, {error: error});
       // user has authenticated correctly - provide user with JWT token, expires in one year, send back username
       sendJwt(req, res);
       res.end('success!');

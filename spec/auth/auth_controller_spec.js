@@ -106,15 +106,29 @@ describe('User Controller', function () {
     });
   });
 
-  it('should 401 if signing up and email already taken', function (done) {
+  it('should login successfully if valid credentials given', function (done) {
     request(app)
-    .post('/auth/signup')
-    .send(mockData.signup)
+    .post('/auth/login')
+    .send(mockData.login.valid)
     .end(function (err, res) {
       if (err) return done(err);
-      expect(res.statusCode).toEqual(403);
-      expect(res.body.error).toEqual('user already exists');
+      expect(res.statusCode).toEqual(201);
+      expect(typeof res.body.kiwiToken).toEqual("string");
       done();
     });
   });
+
+  it('should not login successfully if invalid credentials given', function (done) {
+    request(app)
+    .post('/auth/login')
+    .send(mockData.login.invalid)
+    .end(function (err, res) {
+      if (err) return done(err);
+      expect(res.statusCode).toEqual(401);
+      expect(res.body.kiwiToken).toEqual(undefined);
+      expect(res.body.error).toEqual(undefined);
+      done();
+    });
+  });
+
 });
