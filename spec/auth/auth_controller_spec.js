@@ -41,7 +41,7 @@ describe('User Controller', function () {
     })
   });
 
-  it('should 401 if signing up and email already taken', function (done) {
+  it('should 403 if signing up and email already taken', function (done) {
     request(app)
     .post('/auth/signup')
     .send(mockData.signup)
