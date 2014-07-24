@@ -6,7 +6,7 @@ authRoutes(router); // extends 'router' with authRoutes module
 
 var expectedAPI = {
   '/login':      ['post'],
-  '/signup':   ['post']
+  '/signup':     ['post']
 };
 
 describe('auth Routes', function () {
