@@ -14,6 +14,9 @@ routers.SchemaRouter      = SchemaRouter;
 routers.AuthRouter        = AuthRouter;
 // routers.UserRouter        = UserRouter;
 
+// connect to database once
+require('./db_connection')();
+
 require('./config.js')(app, express, routers);
 
 require('../schema/schema-routes')(SchemaRouter);
