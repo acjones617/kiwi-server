@@ -1,4 +1,4 @@
-var authRoutes = require('../../server/auth/auth-routes.js');
+var authRoutes = require('../../server/auth/auth_routes.js');
 var express = require('express');
 
 var router = express.Router();

@@ -5,7 +5,7 @@ var bodyParser     = require('body-parser'),
     morgan         = require('morgan'),
     methodOverride = require('method-override'),
     cors           = require('cors'),
-    passport       = require('../auth/passport-config'),
+    passport       = require('../auth/passport_config'),
     Promise        = require('bluebird');
 
 /*

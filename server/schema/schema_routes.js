@@ -1,6 +1,6 @@
 "use strict";
 
-var controller = require('./schema-controller');
+var controller = require('./schema_controller');
 
 module.exports = function(router) {
   router.route('/rebuild')

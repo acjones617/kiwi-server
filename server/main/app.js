@@ -19,8 +19,8 @@ require('./db_connection')();
 
 require('./config.js')(app, express, routers);
 
-require('../schema/schema-routes')(SchemaRouter);
-require('../auth/auth-routes')(AuthRouter);
+require('../schema/schema_routes')(SchemaRouter);
+require('../auth/auth_routes')(AuthRouter);
 
 module.exports = exports = app;
 

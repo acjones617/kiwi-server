@@ -1,6 +1,6 @@
 var sql = require('mssql'); 
 var Promise = require('bluebird');
-var query = require('./schema-queries');
+var query = require('./schema_queries');
 var connection = require('../main/db_connection')();
 
 module.exports = {

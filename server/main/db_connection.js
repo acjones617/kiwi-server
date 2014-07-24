@@ -5,7 +5,6 @@ var connection;
 
 module.exports = function() {
   if (!connection) {
-    console.log('no connection');
     connection = new sql.Connection(config, function(err) {
       if (err) {
         console.log('API database connection error:');
@@ -19,7 +18,6 @@ module.exports = function() {
       }
     });
   } else {
-    console.log('connection exists');
     return connection;
   }
 }
