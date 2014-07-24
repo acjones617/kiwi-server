@@ -73,9 +73,8 @@ describe('User Controller', function () {
       if (err) return done(err);
       expect(res.statusCode).toEqual(401);
       expect(res.body.kiwiToken).toEqual(undefined);
-      expect(res.body.error).toEqual(undefined);
+      expect(res.body.error.message).toEqual('This password is not correct.');
       done();
     });
   });
-
 });
