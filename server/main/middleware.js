@@ -1,5 +1,7 @@
 "use strict";
 
+var jwt = require('jsonwebtoken');
+
 /*
  * MiddleWare for the entire app
 */
@@ -11,11 +13,22 @@ module.exports = exports = {
    */
    
   /**
-   *  Protect routes on your api from unauthenticated access
+   *  Protect routes on the api from unauthenticated access
+   *  Add decoded token with user email to req body
    */
-  auth: function auth(req, res, next) {
-    if (req.isAuthenticated()) return next();
-    res.send(401);
+  auth: function(req, res, next) {
+    var token = (req.body && req.body.access_token) || (req.query && req.query.access_token) || req.headers['x-access-token'];
+    var secret = process.env.SECRET_JWT || 'super secret token';
+    
+    jwt.verify(token, secret, function(err, decoded) {
+      if (err) {
+        res.send(401, { error: err });
+      } else {
+        console.log(decoded);
+        req.user = decoded;
+        next();
+      }
+    });    
   },
 
   /**
