@@ -4,7 +4,6 @@ var bodyParser     = require('body-parser'),
     middle         = require('./middleware'),
     morgan         = require('morgan'),
     methodOverride = require('method-override'),
-    cors           = require('cors'),
     passport       = require('../auth/passport_config'),
     Promise        = require('bluebird');
 
@@ -24,11 +23,12 @@ module.exports = exports = function (app, express, routers) {
   app.set('port', process.env.PORT || 3000);
   app.set('base url', process.env.URL || 'http://localhost');
 
-  // app.use(middle.cors);
-  // app.use(cors());
+  app.use(middle.cors);
 
   app.use('/schema' , routers.SchemaRouter);
   app.use('/auth', routers.AuthRouter);
+
+  app.use('/api', middle.auth);
 
   // app.use('/api', expressJwt({secret: process.env.ADMIN_SECRET || 'admin'}));
   // app.use('/public', expressJwt({secret: process.env.USER_SECRET || 'user'}));
