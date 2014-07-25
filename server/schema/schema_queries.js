@@ -35,7 +35,7 @@ var qCreateUsers =
     "notified bit DEFAULT 0,\n" +
     "auth_strategy int FOREIGN KEY REFERENCES auth_strategy(id) DEFAULT 1,\n" +
     "created_at datetime DEFAULT GETDATE()\n" +
-    "CONSTRAINT AK_email UNIQUE(email));";
+    "CONSTRAINT AK_users_email UNIQUE(email));";
 
 var qCreateKiwis =
   "CREATE TABLE dbo.kiwis\n" +
@@ -44,10 +44,13 @@ var qCreateKiwis =
     "title varchar(255),\n" +
     "path varchar(255),\n" +
     "url varchar(1000),\n" +
-    "last_updated datetime,\n" +
+    "priority varchar(1) DEFAULT 'a',\n" +
+    "deleted bit DEFAULT 0,\n" +
+    "last_updated datetime DEFAULT GETDATE(),\n" +
     "update_frequency_in_minutes int DEFAULT 1440,\n" +
     "next_update AS DATEADD (minute, update_frequency_in_minutes, last_updated),\n" +
-    "created_at datetime DEFAULT GETDATE())";
+    "created_at datetime DEFAULT GETDATE(),\n" +
+    "CONSTRAINT AK_kiwis_user_title UNIQUE(user_id, title))";
 
 var qCreateKiwiValues =
   "CREATE TABLE dbo.kiwi_values\n" +
