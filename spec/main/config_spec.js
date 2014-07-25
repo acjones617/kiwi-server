@@ -12,6 +12,7 @@ describe("config", function () {
     routers = {};
     routers.SchemaRouter      = express.Router();
     routers.AuthRouter        = express.Router();
+    routers.UserRouter        = express.Router();
     routers.KiwiRouter        = express.Router();
   });
 

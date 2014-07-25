@@ -30,6 +30,7 @@ module.exports = exports = function (app, express, routers) {
 
   app.use('/api', middle.auth);
 
+  app.use('/api/user', routers.UserRouter);
   app.use('/api/kiwi', routers.KiwiRouter);
 
   // app.use('/api', expressJwt({secret: process.env.ADMIN_SECRET || 'admin'}));
