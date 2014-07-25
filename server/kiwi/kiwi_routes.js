@@ -7,5 +7,5 @@ module.exports = function(router) {
     .post(controller.addKiwi);
 
   router.route('/remove')
-    .delete(controller.removeKiwi);
+    .put(controller.removeKiwi);
 };
