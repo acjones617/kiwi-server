@@ -15,7 +15,7 @@ routers.AuthRouter        = AuthRouter;
 routers.KiwiRouter        = KiwiRouter;
 
 // connect to database once
-require('./db_connection')();
+require('./db_connection');
 
 require('./config.js')(app, express, routers);
 

@@ -24,11 +24,7 @@ var qAddKiwi = function(email, kiwiData) {
 };
 
 var qRemoveKiwi = function(kiwiData) {
-  var query =  
-  "INSERT INTO dbo.users (email, hash_password)\n" +
-  "VALUES ('" + email + "', '" + hash_password + "');";
 
-  return query;
 };
 
 var qCheckKiwiExistence = function(email, kiwiData) {
@@ -43,10 +39,20 @@ var qCheckKiwiExistence = function(email, kiwiData) {
   return query;
 };
 
+var qKiwiNeedingUpdates = function() {
+  var query = 
+  "SELECT *\n" +
+  "FROM dbo.kiwis\n" +
+  "WHERE next_update < GETDATE()";
+
+  return query;
+}
+
 var queries = {
   addKiwi: qAddKiwi,
   removeKiwi: qRemoveKiwi,
-  checkKiwiExistence: qCheckKiwiExistence
+  checkKiwiExistence: qCheckKiwiExistence,
+  kiwiNeedingUpdates: qKiwiNeedingUpdates
 };
 
 module.exports = queries;

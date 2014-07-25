@@ -1,45 +1,40 @@
-var sql = require('mssql'); 
-var Promise = require('bluebird');
 var query = require('./schema_queries');
-var connection = require('../main/db_connection')();
+var dbRequest = require('../main/db_connection')();
 
 module.exports = {
   rebuild: function(req, res) {
-    var request = new sql.Request(connection);
-    Promise.promisifyAll(request);
-
-    request.queryAsync(query.dropTables)
+    dbRequest.queryAsync(query.dropTables)
     .then(function() {
       console.log('dropped tables');
-      return request.queryAsync(query.createAccountLevel);
+      return dbRequest.queryAsync(query.createAccountLevel);
     })
     .then(function() {
       console.log('create account level');
-      return request.queryAsync(query.createAuthStrategy);
+      return dbRequest.queryAsync(query.createAuthStrategy);
     })
     .then(function() {
       console.log('create auth strategy');
-      return request.queryAsync(query.createUsers);
+      return dbRequest.queryAsync(query.createUsers);
     })
     .then(function() {
       console.log('user success!!!');
-      return request.queryAsync(query.createKiwis);
+      return dbRequest.queryAsync(query.createKiwis);
     })
     .then(function() {
       console.log('kiwi success!!!!');
-      return request.queryAsync(query.createKiwiValues);
+      return dbRequest.queryAsync(query.createKiwiValues);
     })
     .then(function() {
       console.log('kiwi-values success!!!!');
-      return request.queryAsync(query.createGroups);
+      return dbRequest.queryAsync(query.createGroups);
     })
     .then(function() {
       console.log('group success!!!!');
-      return request.queryAsync(query.createKiwiGroup);
+      return dbRequest.queryAsync(query.createKiwiGroup);
     })
     .then(function() {
       console.log('kiwi-group success!!!!');
-      return request.queryAsync(query.insertSeedData);
+      return dbRequest.queryAsync(query.insertSeedData);
     })
     .then(function() {
       console.log('insert success!!!!');

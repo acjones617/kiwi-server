@@ -1,8 +1,7 @@
 var request = require('supertest');
 var app = require('../../server/main/app.js');
 var sql = require('mssql');
-var connection = require('../../server/main/db_connection')();
-var Promise = require('bluebird');
+var dbRequest = require('../../server/main/db_connection')();
 
 var authCtrl = require('../../server/auth/auth_controller');
 var mockData = require('./auth_mockData');
@@ -22,9 +21,6 @@ describe('User Controller', function () {
 describe('User Controller', function () {
 
   it('should be able to signup', function (done) {
-    var dbRequest = new sql.Request(connection);
-    Promise.promisifyAll(dbRequest);
-
     // delete test user if it exists
     dbRequest.queryAsync(mockData.queries.deleteTestUser)
     .then(function() {

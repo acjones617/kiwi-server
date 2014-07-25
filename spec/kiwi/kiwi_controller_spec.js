@@ -1,7 +1,7 @@
 var request = require('supertest');
 var app = require('../../server/main/app.js');
 var sql = require('mssql');
-var connection = require('../../server/main/db_connection')();
+var dbRequest = require('../../server/main/db_connection')();
 var Promise = require('bluebird');
 
 var kiwiCtrl = require('../../server/kiwi/kiwi_controller');
@@ -22,9 +22,6 @@ describe('User Controller', function () {
 describe('User Controller', function () {
 
   it('should redirect to login if invalid credentials given', function (done) {
-    var dbRequest = new sql.Request(connection);
-    Promise.promisifyAll(dbRequest);
-
     request(app)
     .post('/api/kiwi/add')
     .set('x-access-token', mockData.auth.invalidJwt)
@@ -37,9 +34,6 @@ describe('User Controller', function () {
   })
 
   it('should be able to add a new kiwi', function (done) {
-    var dbRequest = new sql.Request(connection);
-    Promise.promisifyAll(dbRequest);
-
     // delete kiwi if it exists
     dbRequest.queryAsync(mockData.queries.deleteKiwi)
     .then(function() {
@@ -57,9 +51,6 @@ describe('User Controller', function () {
   });
 
   it('should not be able to add an already existing kiwi', function (done) {
-    var dbRequest = new sql.Request(connection);
-    Promise.promisifyAll(dbRequest);
-
     request(app)
     .post('/api/kiwi/add')
     .set('x-access-token', mockData.auth.validJwt)

@@ -1,12 +1,11 @@
 'use strict';
 
-var sql = require('mssql');
 var passport = require('passport');
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcrypt');
 var Promise = require('bluebird');
 var query = require('./auth_queries');
-var connection = require('../main/db_connection')();
+var dbRequest = require('../main/db_connection')();
 
 Promise.promisifyAll(bcrypt);
 
@@ -14,7 +13,6 @@ var sendJwt = function(req, res) {
   var tokenSecret = process.env.SECRET_JWT || 'super secret token'
   // expires in one year
   var token = jwt.sign({ email: req.body.email }, tokenSecret, { expiresInMinutes: 60 * 24 * 365 });
-  console.log(token);
   res.json(201, { 'kiwiToken': token });
 }
 
@@ -35,13 +33,9 @@ module.exports = {
   },
 
   signup: function (req, res, next) {
-    console.log('inside create', req.body);
     // check is user already exists
-    var request = new sql.Request(connection);
-    Promise.promisifyAll(request);
-    request.queryAsync(query.lookupUser(req.body.email))
+    dbRequest.queryAsync(query.lookupUser(req.body.email))
     .then(function(foundUser) {
-      console.log(foundUser);
       if (foundUser.length) {
         return new Promise(function(resolve, reject) {
           reject('user already exists')
@@ -56,7 +50,7 @@ module.exports = {
     })
     .then(function(hash_password) {
       // insert into sql
-      return request.queryAsync(query.signupUser(req.body.email, hash_password))
+      return dbRequest.queryAsync(query.signupUser(req.body.email, hash_password))
     })
     .then(function() {
       // send back jwt
