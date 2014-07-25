@@ -1,25 +1,27 @@
 module.exports = exports = data = {};
 
-data.signup = {
-  email:          'test@test.com',
-  password:       'verysecure password'
-};
+data.auth = {};
 
-data.login = {};
+data.auth.validJwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJpYXQiOjE0MDYyNDA0MjAsImV4cCI6MTQzNzc3NjQyMH0.JMfH05QwaszPq_ThaZCIjKBWShyvIQpEnpVGUIoMdns';
 
-data.login.valid = {
-  email:          'test@test.com',
-  password:       'verysecure password'
-};
+data.auth.invalidJwt = 'Invalid JSON Web Token';
 
-data.login.invalid = {
-  email:          'test@test.com',
-  password:       'incorrect password'
-};
+data.kiwi = {};
+
+data.kiwi.valid = {
+  kiwiData: {
+    title: "Bitcoin Charts / Charts",
+    path: "html>body>div>div>div>div.column>table>tbody>tr>td:eq(1)",
+    url: "http://bitcoincharts.com/charts/bitstampUSD#rg60ztgSzm1g10zm2g25zv"
+  }
+}
 
 data.queries = {};
 
-data.queries.deleteTestUser =
-  "DELETE FROM dbo.users\n" +
-  "WHERE email = 'test@test.com';";
-  
+data.queries.deleteKiwi =
+  "DELETE dbo.kiwis\n" +
+  "FROM dbo.kiwis k\n" +
+  "JOIN dbo.users u\n" +
+  "ON k.user_id = u.id\n" +
+  "WHERE u.email = 'test@test.com'\n" +
+  "AND k.title = 'Bitcoin Charts / Charts';";
