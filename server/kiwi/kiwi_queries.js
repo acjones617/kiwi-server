@@ -10,12 +10,10 @@
     "deleted bit DEFAULT 0,\n" +
     "created_at datetime DEFAULT GETDATE())";
 
-
 var qAddKiwi = function(email, kiwiData) {
   var query =  
   "INSERT INTO dbo.kiwis (user_id, title, path, url)\n" +
-  "(user_id, title, path, url)"
-    "SELECT user_id,\n" +
+    "SELECT id,\n" +
       "'" + kiwiData.title + "',\n" +
       "'" + kiwiData.path + "',\n" +
       "'" + kiwiData.url + "'\n" +
@@ -33,9 +31,22 @@ var qRemoveKiwi = function(kiwiData) {
   return query;
 };
 
+var qCheckKiwiExistence = function(email, kiwiData) {
+  var query =  
+  "SELECT * \n" +
+  "FROM dbo.kiwis k\n" +
+  "JOIN dbo.users u\n" +
+  "ON k.user_id = u.id\n" +
+  "AND u.email = '" + email + "'\n" +
+  "AND k.title = '" + kiwiData.title + "'";
+
+  return query;
+};
+
 var queries = {
   addKiwi: qAddKiwi,
-  removeKiwi: qRemoveKiwi
+  removeKiwi: qRemoveKiwi,
+  checkKiwiExistence: qCheckKiwiExistence
 };
 
 module.exports = queries;
