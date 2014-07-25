@@ -1,3 +1,5 @@
+'use strict';
+
 var sql = require('mssql');
 var config = require('../main/config_db_development');
 var Promise = require('bluebird');

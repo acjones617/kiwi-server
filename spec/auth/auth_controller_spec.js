@@ -1,6 +1,5 @@
 var request = require('supertest');
 var app = require('../../server/main/app.js');
-var sql = require('mssql');
 var dbRequest = require('../../server/main/db_connection')();
 
 var authCtrl = require('../../server/auth/auth_controller');

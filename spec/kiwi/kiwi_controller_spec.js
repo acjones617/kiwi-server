@@ -1,8 +1,6 @@
 var request = require('supertest');
 var app = require('../../server/main/app.js');
-var sql = require('mssql');
 var dbRequest = require('../../server/main/db_connection')();
-var Promise = require('bluebird');
 
 var kiwiCtrl = require('../../server/kiwi/kiwi_controller');
 var mockData = require('./kiwi_mockData');
