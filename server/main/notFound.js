@@ -1,4 +1,4 @@
-var controller = require('./kiwi_controller');
+'use strict';
 
 module.exports = function(router) {
   router.route('/').all(function(req, res) {

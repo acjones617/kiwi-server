@@ -11,11 +11,7 @@ describe('User Controller', function () {
   it('should have a getUserInfo method', function () {
     expect(userCtrl.getUserInfo).toEqual(jasmine.any(Function));
   });
-
-  it('should have a signup method', function () {
-    expect(userCtrl.signup).toEqual(jasmine.any(Function));
-  });
-
+  
 });
 
 describe('User Controller', function () {

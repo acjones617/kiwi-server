@@ -14,6 +14,7 @@ describe("config", function () {
     routers.AuthRouter        = express.Router();
     routers.UserRouter        = express.Router();
     routers.KiwiRouter        = express.Router();
+    routers.NotFoundRouter        = express.Router();
   });
 
   it("check config is a function", function () {

@@ -33,13 +33,11 @@ module.exports = exports = function (app, express, routers) {
   app.use('/api/user', routers.UserRouter);
   app.use('/api/kiwi', routers.KiwiRouter);
 
-  // app.use('/api', expressJwt({secret: process.env.ADMIN_SECRET || 'admin'}));
-  // app.use('/public', expressJwt({secret: process.env.USER_SECRET || 'user'}));
+  app.use('/api/*', routers.NotFoundRouter);
 
-  // app.use('/api/*', routers.NotFoundRouter);
 
-  app.use(middle.logError);
-  app.use(middle.handleError);
+  // app.use(middle.logError);
+  // app.use(middle.handleError);
 
   // Error handler - has to be last
   // if ('development' === app.get('env')) {

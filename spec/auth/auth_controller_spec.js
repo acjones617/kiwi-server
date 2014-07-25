@@ -5,7 +5,7 @@ var dbRequest = require('../../server/main/db_connection')();
 var authCtrl = require('../../server/auth/auth_controller');
 var mockData = require('./auth_mockData');
 
-describe('User Controller', function () {
+describe('Auth Controller', function () {
 
   it('should have a login method', function () {
     expect(authCtrl.login).toEqual(jasmine.any(Function));
@@ -17,7 +17,7 @@ describe('User Controller', function () {
 
 });
 
-describe('User Controller', function () {
+describe('Auth Controller', function () {
 
   it('should be able to signup', function (done) {
     // delete test user if it exists
@@ -71,4 +71,29 @@ describe('User Controller', function () {
       done();
     });
   });
+});
+
+describe('API guard', function() {
+  it('should redirect if invalid jwt credentials given', function (done) {
+    request(app)
+    .get('/api/*')
+    .set('x-access-token', mockData.auth.invalidJwt)
+    .end(function(err, res) {
+      if (err) return done(err);
+      expect(res.statusCode).toEqual(401);
+      done();
+    });
+  });
+
+  it('should add decoded req.user valid jwt credentials given', function (done) {
+    request(app)
+    .get('/api/*')
+    .set('x-access-token', mockData.auth.validJwt)
+    .end(function (err, res) {
+      if (err) return done(err);
+      expect(res.statusCode).toEqual(404);
+      expect(res.body.user.email).toEqual('test@test.com');
+      done();
+    });
+  })
 });
