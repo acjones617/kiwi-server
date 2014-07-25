@@ -24,7 +24,6 @@ describe('User Controller', function () {
   it('should be able to signup', function (done) {
     var dbRequest = new sql.Request(connection);
     Promise.promisifyAll(dbRequest);
-    console.log(connection);
 
     // delete test user if it exists
     dbRequest.queryAsync(mockData.queries.deleteTestUser)
