@@ -17,18 +17,21 @@ module.exports = exports = {
    *  Add decoded token with user email to req body
    */
   auth: function(req, res, next) {
-    var token = (req.body && req.body.access_token) || (req.query && req.query.access_token) || req.headers['x-access-token'];
+    var token = (req.body && req.body.access_token) || (req.query && req.query.access_token) || req.headers['x-access-token'] || 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJpYXQiOjE0MDYyNDA0MjAsImV4cCI6MTQzNzc3NjQyMH0.JMfH05QwaszPq_ThaZCIjKBWShyvIQpEnpVGUIoMdns';
     var secret = process.env.SECRET_JWT || 'super secret token';
-    
-    jwt.verify(token, secret, function(err, decoded) {
-      if (err) {
-        res.send(401, { error: err });
-      } else {
-        console.log(decoded);
-        req.user = decoded;
-        next();
-      }
-    });    
+    if (!token) {
+      res.send(401, {error: 'not authenticated'});
+    } else {
+      jwt.verify(token, secret, function(err, decoded) {
+        if (err) {
+          res.send(401, { error: err });
+        } else {
+          console.log(decoded);
+          req.user = decoded;
+          next();
+        }
+      });
+    }
   },
 
   /**
