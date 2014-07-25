@@ -12,18 +12,30 @@ module.exports = {
     // req.user.email is user email
     var request = new sql.Request(connection);
     Promise.promisifyAll(request);
-    request.queryAsync(query.addKiwi(req.user.email, req.body.kiwiData))
+
+    request.queryAsync(query.checkKiwiExistence(req.user.email, req.body.kiwiData))
+    .then(function(foundKiwi) {
+      if (foundKiwi.length) {
+        return new Promise(function(resolve, reject) {
+          reject('kiwi already exists');
+        });
+      } else {
+        return request.queryAsync(query.addKiwi(req.user.email, req.body.kiwiData));
+      }
+    })
     .then(function(err, result) {
-      if (err) {
-        console.log(err, 'kiwi already created?');
+      var responseObj = {
+        message: 'kiwi created',
+      }
+      res.send(201, responseObj);
+    })
+    .catch(function(err) {
+      if (err === 'kiwi already exists') {
         res.send(403, { error: err });
       } else {
-        var responseObj = {
-          message: 'kiwi created',
-        }
-        res.send(201, responseObj);
+        res.send(500, { error: err });
       }
-    });
+    })
     
   },
 
