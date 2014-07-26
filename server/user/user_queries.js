@@ -6,7 +6,7 @@ var qGetUserInfo = function(email) {
   "FROM dbo.users u\n" +
   "JOIN dbo.account_level al\n" +
   "ON u.account_level_id = al.id\n" +
-  "AND email = '" + email + "'";
+  "WHERE email = '" + email + "';";
 
   return query;
 };
@@ -17,7 +17,8 @@ var qGetUserKiwis = function(email) {
   "FROM dbo.users u\n" +
   "JOIN dbo.kiwis k\n" +
   "ON u.id = k.user_id\n" +
-  "AND u.email = '" + email + "'";
+  "WHERE u.email = '" + email + "'\n"
+  "AND k.deleted = 0;";
 
   return query;
 };

@@ -33,11 +33,15 @@ module.exports = exports = function (app, express, routers) {
   app.use('/api/user', routers.UserRouter);
   app.use('/api/kiwi', routers.KiwiRouter);
 
-  app.use('/api/*', routers.NotFoundRouter);
+  app.use('/api/*', function() {
+    var err = new Error();
+    err.status = 404;
+    next(err);
+  });
 
 
-  // app.use(middle.logError);
-  // app.use(middle.handleError);
+  app.use(middle.logError);
+  app.use(middle.handleError);
 
   // Error handler - has to be last
   // if ('development' === app.get('env')) {

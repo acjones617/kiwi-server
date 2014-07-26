@@ -60,8 +60,7 @@ module.exports = {
       if (err === 'user already exists') {
         res.send(403, {error: err});
       } else {
-        console.log(err);
-        res.send(500, {error: err});
+        next({ err: err, status: 500 });
       }
     })
   }

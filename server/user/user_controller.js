@@ -12,8 +12,7 @@ module.exports = {
       res.send({ user: foundUser[0] });
     })
     .catch(function(err) {
-      console.log(err);
-      res.send(500);
+      next({ err: err, status: 500 });
     });
   },
 
@@ -23,8 +22,7 @@ module.exports = {
       res.send({ kiwis: foundKiwis });
     })
     .catch(function(err) {
-      console.log(err);
-      res.send(500);
+      next({ err: err, status: 500 });
     })
   }
 }

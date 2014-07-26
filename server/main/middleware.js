@@ -54,7 +54,10 @@ module.exports = exports = {
 
   handleError: function (err, req, res, next) {
     if (err) {
-      res.send(err, 500);
+      if (err.status === 404) {
+        return res.send({ user: req.user }, 404);
+      }
+      res.send(err, err.status);
     }
   },
 

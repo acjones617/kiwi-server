@@ -1,6 +1,5 @@
 'use strict';
 
-var passport = require('passport');
 var query = require('./kiwi_queries');
 var Promise = require('bluebird');
 var dbRequest = require('../main/db_connection');
@@ -29,14 +28,20 @@ module.exports = {
       if (err === 'kiwi already exists') {
         res.send(403, { error: err });
       } else {
-        res.send(500, { error: err });
+        next({ err: err, status: 500 });
       }
     })
     
   },
 
   getKiwiValues: function(req, res, next) {
-
+    dbRequest.queryAsync(query.getKiwiValues(req.body.kiwiData))
+    .then(function(kiwiValues) {
+      res.send({ data: kiwiValues });
+    })
+    .catch(function(err) {
+      next({ err: err, status: 500 });
+    })
   },
 
   addKiwiValue: function(req, res, next) {
@@ -52,7 +57,7 @@ module.exports = {
       res.send(foundKiwis);
     })
     .catch(function(err) {
-      res.send(500, { error: err });
+      next({ err: err, status: 500 });
     })
   },
 

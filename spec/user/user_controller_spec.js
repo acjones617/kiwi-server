@@ -39,8 +39,8 @@ describe('User Controller', function () {
       if (err) return done(err);
       expect(res.statusCode).toEqual(200);
       expect(res.body.kiwis.length).toBeGreaterThan(0);
+      expect(res.body.kiwis[0].title).toEqual("Bitcoin Charts / Charts");
       done();
     });
   });
-
 });
