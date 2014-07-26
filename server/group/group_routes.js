@@ -3,10 +3,14 @@
 var controller = require('./group_controller');
 
 module.exports = function(router) {
-  router.route('/info')
-    .get(controller.getUserInfo);
+  router.route('/info/:groupId')
+    .get(controller.getGroupInfo);
 
-  router.route('/kiwis')
-    .get(controller.getUserKiwis);
+  router.route('/kiwis/:groupId')
+    .get(controller.getKiwis)
+    .post(controller.addKiwi);
+
+  router.route('/create')
+    .post(controller.createGroup);
 
 };
