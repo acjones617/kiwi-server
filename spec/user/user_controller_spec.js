@@ -11,61 +11,21 @@ describe('User Controller', function () {
   it('should have a getUserInfo method', function () {
     expect(userCtrl.getUserInfo).toEqual(jasmine.any(Function));
   });
-  
+
 });
 
 describe('User Controller', function () {
 
-  // it('should be able to signup', function (done) {
-  //   // delete test user if it exists
-  //   dbRequest.queryAsync(mockData.queries.deleteTestUser)
-  //   .then(function() {
-  //     request(app)
-  //     .post('/user/signup')
-  //     .send(mockData.signup)
-  //     .end(function (err, res) {
-  //       if (err) return done(err);
-  //       expect(res.statusCode).toEqual(201);
-  //       expect(typeof res.body.kiwiToken).toEqual("string");
-  //       done();
-  //     });
-  //   })
-  // });
-
-  // it('should 403 if signing up and email already taken', function (done) {
-  //   request(app)
-  //   .post('/user/signup')
-  //   .send(mockData.signup)
-  //   .end(function (err, res) {
-  //     if (err) return done(err);
-  //     expect(res.statusCode).toEqual(403);
-  //     expect(res.body.error).toEqual('user already exists');
-  //     done();
-  //   });
-  // });
-
-  // it('should login successfully if valid credentials given', function (done) {
-  //   request(app)
-  //   .post('/user/login')
-  //   .send(mockData.login.valid)
-  //   .end(function (err, res) {
-  //     if (err) return done(err);
-  //     expect(res.statusCode).toEqual(201);
-  //     expect(typeof res.body.kiwiToken).toEqual("string");
-  //     done();
-  //   });
-  // });
-
-  // it('should not login successfully if invalid credentials given', function (done) {
-  //   request(app)
-  //   .post('/user/login')
-  //   .send(mockData.login.invalid)
-  //   .end(function (err, res) {
-  //     if (err) return done(err);
-  //     expect(res.statusCode).toEqual(401);
-  //     expect(res.body.kiwiToken).toEqual(undefined);
-  //     expect(res.body.error.message).toEqual('This password is not correct.');
-  //     done();
-  //   });
-  // });
+  it('should return user info', function (done) {
+    request(app)
+    .get('/api/user/info')
+    .set('x-access-token', authData.validJwt)
+    .end(function (err, res) {
+      if (err) return done(err);
+      console.log(res.body.user);
+      expect(res.statusCode).toEqual(200);
+      expect(res.body.user.email).toEqual('test@test.com');
+      done();
+    });
+  });
 });
