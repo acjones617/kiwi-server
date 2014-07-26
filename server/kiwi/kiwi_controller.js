@@ -28,7 +28,7 @@ module.exports = {
       if (err === 'kiwi already exists') {
         res.send(403, { error: err });
       } else {
-        next({ err: err, status: 500 });
+        next({ error: err, status: 500 });
       }
     })
     
@@ -36,22 +36,22 @@ module.exports = {
 
   addKiwiValue: function(req, res, next) {
     // expect kiwiId, value:
-    dbRequest.queryAsync(query.addKiwiValues(req.body.kiwiData))
+    dbRequest.queryAsync(query.addKiwiValues(req.params.kiwiId, req.body.kiwiData))
     .then(function() {
       res.send(201);
     })
     .catch(function(err) {
-      next({ err: err, status: 500 });
+      next({ error: err, status: 500 });
     })
   },
 
   getKiwiValues: function(req, res, next) {
-    dbRequest.queryAsync(query.getKiwiValues(req.body.kiwiData))
+    dbRequest.queryAsync(query.getKiwiValues(req.params.kiwiId))
     .then(function(kiwiValues) {
       res.send({ data: kiwiValues });
     })
     .catch(function(err) {
-      next({ err: err, status: 500 });
+      next({ error: err, status: 500 });
     })
   },
 
@@ -63,7 +63,7 @@ module.exports = {
       res.send(foundKiwis);
     })
     .catch(function(err) {
-      next({ err: err, status: 500 });
+      next({ error: err, status: 500 });
     })
   },
 
