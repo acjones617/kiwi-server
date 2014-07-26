@@ -4,6 +4,7 @@ var dbRequest = require('../../server/main/db_connection');
 
 var authCtrl = require('../../server/auth/auth_controller');
 var mockData = require('./auth_mockData');
+var authData = require('../../server/main/config_db_development');
 
 describe('Auth Controller', function () {
 
@@ -88,7 +89,7 @@ describe('API guard', function() {
   it('should add decoded req.user valid jwt credentials given', function (done) {
     request(app)
     .get('/api/*')
-    .set('x-access-token', mockData.auth.validJwt)
+    .set('x-access-token', authData.validJwt)
     .end(function (err, res) {
       if (err) return done(err);
       expect(res.statusCode).toEqual(404);

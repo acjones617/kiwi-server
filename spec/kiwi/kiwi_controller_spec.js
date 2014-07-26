@@ -4,7 +4,7 @@ var dbRequest = require('../../server/main/db_connection');
 
 var kiwiCtrl = require('../../server/kiwi/kiwi_controller');
 var mockData = require('./kiwi_mockData');
-var authData = require('../auth/auth_mockData').auth;
+var authData = require('../../server/main/config_db_development');
 
 describe('Kiwi Controller', function () {
 

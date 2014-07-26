@@ -2,8 +2,8 @@
 
 var controller = require('./schema_controller');
 
-module.exports = function(router) {
+module.exports = function(router, app) {
   router.route('/rebuild')
-    .get(controller.rebuild);
+    .get(controller(app).rebuild);
 };
 

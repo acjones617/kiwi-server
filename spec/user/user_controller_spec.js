@@ -4,7 +4,7 @@ var dbRequest = require('../../server/main/db_connection');
 
 var userCtrl = require('../../server/user/user_controller');
 var mockData = require('./user_mockData');
-var authData = require('../auth/auth_mockData').auth;
+var authData = require('../../server/main/config_db_development');
 
 describe('User Controller', function () {
 

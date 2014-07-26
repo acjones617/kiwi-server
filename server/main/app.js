@@ -23,7 +23,7 @@ require('./db_connection');
 
 require('./config.js')(app, express, routers);
 
-require('../schema/schema_routes')(SchemaRouter);
+require('../schema/schema_routes')(SchemaRouter, app);
 require('../auth/auth_routes')(AuthRouter);
 require('../user/user_routes')(UserRouter);
 require('../kiwi/kiwi_routes')(KiwiRouter);
