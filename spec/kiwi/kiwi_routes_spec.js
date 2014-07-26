@@ -6,6 +6,8 @@ kiwiRoutes(router); // extends 'router' with kiwiRoutes module
 
 var expectedAPI = {
   '/add':      ['post'],
+  '/values':   ['get', 'post'],
+  '/update':   ['get', 'post'],
   '/remove':   ['put']
 };
 
