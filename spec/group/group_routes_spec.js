@@ -1,17 +1,16 @@
-var kiwiRoutes = require('../../server/kiwi/kiwi_routes.js');
+var groupRoutes = require('../../server/group/group_routes.js');
 var express = require('express');
 
 var router = express.Router();
-kiwiRoutes(router); // extends 'router' with kiwiRoutes module
+groupRoutes(router); // extends 'router' with groupRoutes module
 
 var expectedAPI = {
-  '/add':      ['post'],
-  '/values':   ['get', 'post'],
-  '/update':   ['get', 'post'],
-  '/remove':   ['put']
+  '/info/:groupId':   ['get'],
+  '/kiwis/:groupId':  ['get', 'post'],
+  '/create':          ['post']
 };
 
-describe('kiwi Routes', function () {
+describe('Group Routes', function () {
 
   for (var path in expectedAPI) {
     (function (path) {
