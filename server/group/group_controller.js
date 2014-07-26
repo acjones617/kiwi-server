@@ -5,23 +5,57 @@ var dbRequest = require('../main/db_connection');
 
 module.exports = {
 
-  getUserInfo: function (req, res, next) {
-    dbRequest.queryAsync(query.getUserInfo(req.user.email))
-    .then(function(foundUser) {
-      res.send({ user: foundUser[0] });
+  getGroupInfo: function (req, res, next) {
+    dbRequest.queryAsync(query.getGroupInfo(req.user.email, req.params.groupId))
+    .then(function(foundGroup) {
+      res.send({ group: foundGroup[0] });
     })
     .catch(function(err) {
-      next({ err: err, status: 500 });
+      next({ error: err, status: 500 });
     });
   },
 
-  getUserKiwis: function(req, res, next) {
-    dbRequest.queryAsync(query.getUserKiwis(req.user.email))
+  getKiwis: function(req, res, next) {
+    dbRequest.queryAsync(query.getKiwisOfGroup(req.params.groupId))
     .then(function(foundKiwis) {
       res.send({ kiwis: foundKiwis });
     })
     .catch(function(err) {
-      next({ err: err, status: 500 });
+      next({ error: err, status: 500 });
+    });
+  },
+
+  addKiwi: function(req, res, next) {
+    dbRequest.queryAsync(query.addKiwiToGroup(req.params.groupId, req.body.kiwiData))
+    .then(function() {
+      res.send(201);
     })
-  }
+    .catch(function(err) {
+      next({ error: err, status: 500 });
+    });
+  },
+
+  createGroup: function(req, res, next) {
+    dbRequest.queryAsync(query.lookupGroup(req.user.email, req.body.groupData))
+    .then(function(foundGroup) {
+      if (foundUser.length) {
+        return new Promise(function(resolve, reject) {
+          reject('user already has group by that name')
+        });
+      } else {
+        // if no user exists, move along with group creation
+        return dbRequest.queryAsync(query.createGroup(req.user.email, req.body.groupData))
+      }
+    })
+    .then(function() {
+      res.send(201);
+    })
+    .catch(function(err) {
+      if (err === 'user already has group by that name') {
+        next({ error: err, status: 403 });
+      } else {
+        next({ error: err, status: 500 });
+      }
+    });
+  },
 }
