@@ -22,17 +22,17 @@ var qRemoveKiwi = function(kiwiData) {
   return query;
 };
 
-var qAddKiwiValue = function(kiwiData) {
+var qAddKiwiValue = function(kiwiId, kiwiData) {
   var query = 
   "INSERT INTO dbo.kiwi_values (kiwi_id, value)\n" +
-  "VALUES (" + kiwiData.id + ", " + kiwiData.value + ");";
+  "VALUES (" + kiwiId + ", " + kiwiData.value + ");";
 }
 
-var qGetKiwiValues = function(kiwiData) {
+var qGetKiwiValues = function(kiwiId) {
   var query =
   "SELECT *\n" +
   "FROM dbo.kiwi_values\n" +
-  "WHERE kiwi_id = " + kiwiData.id + ";";
+  "WHERE kiwi_id = " + kiwiId + ";";
 
   return query;
 }
