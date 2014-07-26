@@ -37,7 +37,7 @@ var qCreateUsers =
     "email varchar(255) NOT NULL,\n" +
     "hash_password varchar(255) NOT NULL,\n" +
     "notified bit DEFAULT 0,\n" +
-    "auth_strategy int FOREIGN KEY REFERENCES auth_strategy(id) DEFAULT 1,\n" +
+    "auth_strategy_id int FOREIGN KEY REFERENCES auth_strategy(id) DEFAULT 1,\n" +
     "created_at datetime DEFAULT GETDATE()\n" +
     "CONSTRAINT AK_users_email UNIQUE(email));";
 
@@ -70,7 +70,8 @@ var qCreateGroups =
     "name varchar(255),\n" +
     "description varchar(1000),\n" +
     "is_public bit DEFAULT 0,\n" +
-    "created_at datetime DEFAULT GETDATE())";
+    "created_at datetime DEFAULT GETDATE()\n" +
+    "CONSTRAINT AK_groups_user_name UNIQUE(user_id, name));";
 
 var qCreateKiwiGroup =
   "CREATE TABLE dbo.kiwi_group\n" +
@@ -92,7 +93,7 @@ var qInsertKiwi =
     "SELECT id,\n" +
       "'" + mockData.kiwi.title + "',\n" +
       "'" + mockData.kiwi.path + "',\n" +
-      "'" + mockData.kiwi.url + "'\n" +
+      "'" + mockData.kiwi.url + "',\n" +
       "'" + mockData.kiwi.last_updated + "'\n" +
     "FROM dbo.users\n" +
     "WHERE email = '" + mockData.signup.email + "';";
@@ -100,13 +101,73 @@ var qInsertKiwi =
 var qInsertKiwiValue = 
   "INSERT INTO dbo.kiwi_values (kiwi_id, value)\n" +
     "SELECT k.id, " + mockData.kiwi.value + "\n" +
-    "FROM dbo.kiwi k\n" +
+    "FROM dbo.kiwis k\n" +
     "JOIN dbo.users u\n" +
     "ON u.id = k.user_id\n" +
     "WHERE k.title = '" + mockData.kiwi.title + "'\n" +
     "AND k.path ='" + mockData.kiwi.path + "'\n" +
     "AND k.url ='" + mockData.kiwi.url + "'\n" +
     "AND email = '" + mockData.signup.email + "';";
+
+var qInsertGroup = 
+  "INSERT INTO dbo.groups (user_id, name, description)\n" +
+    "SELECT id,\n" +
+      "'" + mockData.group.name + "',\n" +
+      "'" + mockData.group.description + "'\n" +
+    "FROM dbo.users\n" +
+    "WHERE email = '" + mockData.signup.email + "';";
+
+var qInsertKiwiGroup = 
+  "INSERT INTO dbo.kiwi_group (group_id, kiwi_id)\n" +
+    "SELECT g.id, k.id\n" +
+    "FROM dbo.groups g\n" +
+    "JOIN dbo.users u\n" +
+    "ON u.id = g.user_id\n" +
+    "JOIN dbo.kiwis k\n" +
+    "ON u.id = k.user_id\n" +
+    "WHERE u.email = '" + mockData.signup.email + "';";
+
+var qInsertKiwiValue = 
+  "INSERT INTO dbo.kiwi_values (kiwi_id, value)\n" +
+    "SELECT k.id, " + mockData.kiwi.value + "\n" +
+    "FROM dbo.kiwis k\n" +
+    "JOIN dbo.users u\n" +
+    "ON u.id = k.user_id\n" +
+    "WHERE k.title = '" + mockData.kiwi.title + "'\n" +
+    "AND k.path ='" + mockData.kiwi.path + "'\n" +
+    "AND k.url ='" + mockData.kiwi.url + "'\n" +
+    "AND email = '" + mockData.signup.email + "';";
+
+  "IF OBJECT_ID('dbo.kiwi_group', 'U') IS NOT NULL\n" +
+    "DROP TABLE dbo.kiwi_group;\n" +
+  "IF OBJECT_ID('dbo.groups', 'U') IS NOT NULL\n" +
+    "DROP TABLE dbo.groups;\n" +
+  "IF OBJECT_ID('dbo.kiwi_values', 'U') IS NOT NULL\n" +
+    "DROP TABLE dbo.kiwi_values;\n" +
+  "IF OBJECT_ID('dbo.kiwis', 'U') IS NOT NULL\n" +
+    "DROP TABLE dbo.kiwis;\n" +
+  "IF OBJECT_ID('dbo.users', 'U') IS NOT NULL\n" +
+    "DROP TABLE dbo.users;\n" +
+  "IF OBJECT_ID('dbo.auth_strategy', 'U') IS NOT NULL\n" +
+    "DROP TABLE dbo.auth_strategy;\n" +
+  "IF OBJECT_ID('dbo.account_level', 'U') IS NOT NULL\n" +
+    "DROP TABLE dbo.account_level;";
+
+var qSelectAll =
+  "SELECT al.*, auth.*, u.*, k.*, kv.*, g.*, kg.* FROM dbo.users u\n" +
+  "JOIN dbo.account_level al\n" + 
+  "ON u.account_level_id = al.id\n" +
+  "JOIN dbo.auth_strategy auth\n" +
+  "ON u.auth_strategy_id = auth.id\n" +
+  "JOIN dbo.kiwis k\n" +
+  "ON u.id = k.user_id\n" +
+  "JOIN dbo.groups g\n" +
+  "ON u.id = g.user_id\n" +
+  "JOIN dbo.kiwi_values kv\n" +
+  "ON k.id = kv.kiwi_id\n" +
+  "JOIN dbo.kiwi_group kg\n" +
+  "ON k.id = kg.kiwi_id\n" +
+  "AND g.id = kg.group_id;";
 
 
 var queries = {
@@ -120,7 +181,10 @@ var queries = {
   createKiwiGroup: qCreateKiwiGroup,
   insertSeedData: qInsertSeedData,
   insertKiwi: qInsertKiwi,
-  insertKiwiValue: qInsertKiwiValue
+  insertGroup: qInsertGroup,
+  insertKiwiGroup: qInsertKiwiGroup,
+  insertKiwiValue: qInsertKiwiValue,
+  selectAll: qSelectAll
 };
 
 module.exports = queries;
