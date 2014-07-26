@@ -29,7 +29,7 @@ var qCreateAuthStrategy =
 var qCreateUsers =
   "CREATE TABLE dbo.users\n" +
     "(id int IDENTITY(1,1) PRIMARY KEY,\n" +
-    "id_account_level int FOREIGN KEY REFERENCES account_level(id) DEFAULT 1,\n" +
+    "account_level_id int FOREIGN KEY REFERENCES account_level(id) DEFAULT 1,\n" +
     "email varchar(255) NOT NULL,\n" +
     "hash_password varchar(255) NOT NULL,\n" +
     "notified bit DEFAULT 0,\n" +
@@ -81,7 +81,7 @@ var qInsertSeedData =
   "INSERT INTO dbo.account_level (level, permissions)\n" +
   "VALUES ('paid', 'all');\n" +
   "INSERT INTO dbo.auth_strategy (strategy)\n" +
-  "VALUES ('local');";
+  "VALUES ('local');\n";
   
 
 var queries = {

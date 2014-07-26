@@ -7,7 +7,7 @@ var config = require('../main/config_db_development');
 var Promise = require('bluebird');
 var bcrypt = require('bcrypt');
 var query = require('./auth_queries');
-var dbRequest = require('../main/db_connection')();
+var dbRequest = require('../main/db_connection');
 
 Promise.promisifyAll(bcrypt);
 
@@ -22,7 +22,6 @@ passport.use(new LocalStrategy({
   function(email, password, done) {
     dbRequest.queryAsync(query.lookupUser(email))
     .then(function(foundUser) {
-      console.log(foundUser);
       if (!foundUser.length) {
         return done(null, false, {
           message: 'This email is not registered.'

@@ -5,7 +5,7 @@ var jwt = require('jsonwebtoken');
 var bcrypt = require('bcrypt');
 var Promise = require('bluebird');
 var query = require('./auth_queries');
-var dbRequest = require('../main/db_connection')();
+var dbRequest = require('../main/db_connection');
 
 Promise.promisifyAll(bcrypt);
 

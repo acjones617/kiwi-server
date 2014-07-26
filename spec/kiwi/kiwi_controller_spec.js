@@ -1,6 +1,6 @@
 var request = require('supertest');
 var app = require('../../server/main/app.js');
-var dbRequest = require('../../server/main/db_connection')();
+var dbRequest = require('../../server/main/db_connection');
 
 var kiwiCtrl = require('../../server/kiwi/kiwi_controller');
 var mockData = require('./kiwi_mockData');

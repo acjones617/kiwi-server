@@ -1,6 +1,6 @@
 var request = require('supertest');
 var app = require('../../server/main/app.js');
-var dbRequest = require('../../server/main/db_connection')();
+var dbRequest = require('../../server/main/db_connection');
 
 var authCtrl = require('../../server/auth/auth_controller');
 var mockData = require('./auth_mockData');
@@ -93,6 +93,7 @@ describe('API guard', function() {
       if (err) return done(err);
       expect(res.statusCode).toEqual(404);
       expect(res.body.user.email).toEqual('test@test.com');
+      expect(res.body.user.hash_password).toEqual(undefined);
       done();
     });
   })

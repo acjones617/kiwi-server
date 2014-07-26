@@ -1,6 +1,6 @@
 var request = require('supertest');
 var app = require('../../server/main/app.js');
-var dbRequest = require('../../server/main/db_connection')();
+var dbRequest = require('../../server/main/db_connection');
 
 var userCtrl = require('../../server/user/user_controller');
 var mockData = require('./user_mockData');
@@ -22,10 +22,25 @@ describe('User Controller', function () {
     .set('x-access-token', authData.validJwt)
     .end(function (err, res) {
       if (err) return done(err);
-      console.log(res.body.user);
       expect(res.statusCode).toEqual(200);
       expect(res.body.user.email).toEqual('test@test.com');
+      expect(typeof res.body.user.accountLevel).toEqual('string');
+      expect(typeof res.body.user.notified).toEqual('boolean');
+      expect(res.body.user.hash_password).toEqual(undefined);
       done();
     });
   });
+
+  it('should return user kiwis', function (done) {
+    request(app)
+    .get('/api/user/kiwis')
+    .set('x-access-token', authData.validJwt)
+    .end(function (err, res) {
+      if (err) return done(err);
+      expect(res.statusCode).toEqual(200);
+      expect(res.body.kiwis.length).toBeGreaterThan(0);
+      done();
+    });
+  });
+
 });

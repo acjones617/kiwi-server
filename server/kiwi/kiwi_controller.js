@@ -3,7 +3,7 @@
 var passport = require('passport');
 var query = require('./kiwi_queries');
 var Promise = require('bluebird');
-var dbRequest = require('../main/db_connection')();
+var dbRequest = require('../main/db_connection');
 
 module.exports = {
 

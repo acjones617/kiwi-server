@@ -1,5 +1,5 @@
 var query = require('./schema_queries');
-var dbRequest = require('../main/db_connection')();
+var dbRequest = require('../main/db_connection');
 
 module.exports = {
   rebuild: function(req, res) {

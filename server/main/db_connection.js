@@ -15,8 +15,7 @@ var connection = new sql.Connection(config, function(err) {
   }
 });
 
-module.exports = function() {
-  var request = new sql.Request(connection);
-  Promise.promisifyAll(request);
-  return request;
-};
+var request = new sql.Request(connection);
+Promise.promisifyAll(request);
+
+module.exports = request;
