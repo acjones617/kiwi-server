@@ -1,3 +1,7 @@
+'use strict';
+
+var testData = require('../../server/schema/schema_mockData');
+
 module.exports = exports = data = {};
 
 data.kiwi = {};
@@ -10,12 +14,21 @@ data.kiwi.valid = {
   }
 }
 
+data.kiwi.invalid = testData.kiwi;
+
 data.queries = {};
 
-data.queries.deleteKiwi =
-  "DELETE dbo.kiwis\n" +
+data.queries.deletekiwi =
+  "DELETE dbo.kiwi\n" +
+  "FROM dbo.kiwi k\n" +
+  "JOIN dbo.users u\n" +
+  "ON k.user_id = u.id\n" +
+  "WHERE u.email = '" + testData.signup.email + "'\n" +
+  "AND k.title = " + testData.kiwi.title;
+
+data.queries.getTestKiwi = 
+  "SELECT k.*\n" +
   "FROM dbo.kiwis k\n" +
   "JOIN dbo.users u\n" +
   "ON k.user_id = u.id\n" +
-  "WHERE u.email = 'test@test.com'\n" +
-  "AND k.title = 'Bitcoin Charts / Charts';";
+  "WHERE u.email = '" + testData.signup.email + "';";
