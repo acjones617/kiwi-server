@@ -5,10 +5,10 @@ var router = express.Router();
 kiwiRoutes(router); // extends 'router' with kiwiRoutes module
 
 var expectedAPI = {
-  '/add':      ['post'],
-  '/values':   ['get', 'post'],
-  '/update':   ['get', 'post'],
-  '/remove':   ['put']
+  '/add':              ['post'],
+  '/values/:kiwiId':   ['get', 'post'],
+  '/update':           ['get'],
+  '/remove':           ['put']
 };
 
 describe('kiwi Routes', function () {

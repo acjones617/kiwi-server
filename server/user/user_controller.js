@@ -1,6 +1,5 @@
 'use strict';
 
-var passport = require('passport');
 var query = require('./user_queries');
 var dbRequest = require('../main/db_connection');
 
@@ -12,7 +11,7 @@ module.exports = {
       res.send({ user: foundUser[0] });
     })
     .catch(function(err) {
-      next({ err: err, status: 500 });
+      next({ error: err, status: 500 });
     });
   },
 
@@ -22,7 +21,7 @@ module.exports = {
       res.send({ kiwis: foundKiwis });
     })
     .catch(function(err) {
-      next({ err: err, status: 500 });
+      next({ error: err, status: 500 });
     })
   }
 }
