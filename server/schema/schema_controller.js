@@ -40,26 +40,31 @@ module.exports = function(app) {
         return dbRequest.queryAsync(query.insertSeedData);
       })
       .then(function() {
-        console.log('insert success!!!!');
+        console.log('insert first seed data success!!!!');
         // create new user
         request(app)
         .post('/auth/signup')
         .send({ email: 'test@test.com',password: 'verysecure password' })
         .end(function (err, res) {
           // sample user created, create sample kiwi
-          request(app)
-          request(app)
-          .post('/api/kiwi/add')
-          .set('x-access-token', authData.validJwt)
-          .send({ kiwiData: {
-              title: "Bitcoin Charts / Charts",
-              path: "html>body>div>div>div>div.column>table>tbody>tr>td:eq(1)",
-              url: "http://bitcoincharts.com/charts/bitstampUSD#rg60ztgSzm1g10zm2g25zv" 
-            }
+          console.log('dummy user created!!');
+          dbRequest.queryAsync(query.insertKiwi)
+          .then(function() {
+            console.log('insert seed kiwi success!!!');
+            return dbRequest.queryAsync(query.insertKiwiValue)
           })
-          .end(function (err, res) {
+          .then(function() {
+            console.log('insert seed kiwi value success!!!');
+            return dbRequest.queryAsync(query.insertKiwiGroup)
+          })
+          .then(function() {
+            console.log('added seed kiwi group!!!')
             // donezo
             res.end('success!');
+          })
+          .catch(function() {
+            console.log('error!!!!', err);
+            res.send('error!');
           });
         });
       })

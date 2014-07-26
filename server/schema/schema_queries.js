@@ -1,3 +1,7 @@
+'use strict';
+
+var mockData = require('./schema_mockData');
+
 // must drop tables in appropriate order based on foreign keys
 var qDropTables =
   "IF OBJECT_ID('dbo.kiwi_group', 'U') IS NOT NULL\n" +
@@ -82,7 +86,28 @@ var qInsertSeedData =
   "VALUES ('paid', 'all');\n" +
   "INSERT INTO dbo.auth_strategy (strategy)\n" +
   "VALUES ('local');\n";
-  
+
+var qInsertKiwi = 
+  "INSERT INTO dbo.kiwis (user_id, title, path, url, last_updated)\n" +
+    "SELECT id,\n" +
+      "'" + mockData.kiwi.title + "',\n" +
+      "'" + mockData.kiwi.path + "',\n" +
+      "'" + mockData.kiwi.url + "'\n" +
+      "'" + mockData.kiwi.last_updated + "'\n" +
+    "FROM dbo.users\n" +
+    "WHERE email = '" + mockData.signup.email + "';";
+
+var qInsertKiwiValue = 
+  "INSERT INTO dbo.kiwi_values (kiwi_id, value)\n" +
+    "SELECT k.id, " + mockData.kiwi.value + "\n" +
+    "FROM dbo.kiwi k\n" +
+    "JOIN dbo.users u\n" +
+    "ON u.id = k.user_id\n" +
+    "WHERE k.title = '" + mockData.kiwi.title + "'\n" +
+    "AND k.path ='" + mockData.kiwi.path + "'\n" +
+    "AND k.url ='" + mockData.kiwi.url + "'\n" +
+    "AND email = '" + mockData.signup.email + "';";
+
 
 var queries = {
   dropTables: qDropTables,
@@ -93,7 +118,9 @@ var queries = {
   createKiwiValues: qCreateKiwiValues,
   createGroups: qCreateGroups,
   createKiwiGroup: qCreateKiwiGroup,
-  insertSeedData: qInsertSeedData
+  insertSeedData: qInsertSeedData,
+  insertKiwi: qInsertKiwi,
+  insertKiwiValue: qInsertKiwiValue
 };
 
 module.exports = queries;
