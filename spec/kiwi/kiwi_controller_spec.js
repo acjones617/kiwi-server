@@ -6,7 +6,7 @@ var kiwiCtrl = require('../../server/kiwi/kiwi_controller');
 var mockData = require('./kiwi_mockData');
 var authData = require('../auth/auth_mockData').auth;
 
-describe('User Controller', function () {
+describe('Kiwi Controller', function () {
 
   it('should have an add kiwi method', function () {
     expect(kiwiCtrl.addKiwi).toEqual(jasmine.any(Function));
@@ -18,19 +18,7 @@ describe('User Controller', function () {
 
 });
 
-describe('User Controller', function () {
-
-  // it('should redirect to login if invalid credentials given', function (done) {
-  //   request(app)
-  //   .post('/api/kiwi/add')
-  //   .set('x-access-token', mockData.auth.invalidJwt)
-  //   .send(mockData.signup)
-  //   .end(function (err, res) {
-  //     if (err) return done(err);
-  //     expect(res.statusCode).toEqual(401);
-  //     done();
-  //   });
-  // })
+describe('Kiwi Controller', function () {
 
   it('should be able to add a new kiwi', function (done) {
     // delete kiwi if it exists
