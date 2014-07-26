@@ -1,32 +1,66 @@
 'use strict';
 
-var qGetUserInfo = function(email) {
+var qGetGroupInfo = function(email, groupId) {
   var query =
-  "SELECT u.email as 'email', al.level as 'accountLevel', u.notified as 'notified', u.created_at as 'createdAt'\n" +
-  "FROM dbo.users u\n" +
-  "JOIN dbo.account_level al\n" +
-  "ON u.account_level_id = al.id\n" +
-  "WHERE email = '" + email + "';";
+  "SELECT g.*\n" +
+  "FROM dbo.groups g\n" +
+  "JOIN dbo.users u\n" +
+  "ON u.id = g.user_id\n" +
+  "WHERE g.id = '" + groupId + "'\n"
+  "AND (u.email = '" + email + "' OR g.is_public = 1);";
 
   return query;
 };
 
-var qGetUserKiwis = function(email) {
+var qAddKiwiToGroup = function(groupId, kiwiData) {
   var query =
-  "SELECT k.*\n" +
-  "FROM dbo.users u\n" +
-  "JOIN dbo.kiwis k\n" +
-  "ON u.id = k.user_id\n" +
-  "WHERE u.email = '" + email + "'\n"
-  "AND k.deleted = 0;";
+  "INSERT INTO dbo.kiwi_group (group_id, kiwi_id)\n" +
+  "VALUES (" + groupId + "," + kiwiData.id + ");";
 
+  return query;
+}
+
+var qGetKiwisOfGroup = function(groupId) {
+  var query =
+  "SELECT k.id, k.title\n" +
+  "FROM dbo.kiwis k\n" +
+  "JOIN dbo.kiwi_group kg\n" +
+  "ON k.id = kg.kiwi_id\n" +
+  "WHERE kg.group_id = " + groupId + ";";
+
+  return query;
+}
+
+var qLookupGroup = function(email, groupData) {
+  var query =  
+  "SELECT *\n" +
+  "FROM dbo.groups g\n" +
+  "JOIN dbo.users u\n" +
+  "ON g.user_id = u.id\n" +
+  "WHERE u.email = '" + email + "'\n" +
+  "AND g.name = '" + groupData.name + "';";
+
+  return query;
+};
+
+var qCreateGroup = function(email, groupData) {
+  var query =
+  "INSERT INTO dbo.groups (user_id, name, description)\n" +
+  "SELECT u.id, '" + groupData.name + "', '" + groupData.description + "'\n" +
+  "FROM dbo.users u\n" +
+  "WHERE u.email = '" + email + "';\n" +
+  "GO\n"
+  
   return query;
 };
 
 
 var queries = {
-  getUserInfo: qGetUserInfo,
-  getUserKiwis: qGetUserKiwis
+  getGroupInfo: qGetGroupInfo,
+  getKiwisOfGroup: qGetKiwisOfGroup,
+  addKiwiToGroup: qAddKiwiToGroup,
+  lookupGroup: qLookupGroup,
+  createGroup: qCreateGroup
 };
 
 module.exports = queries;
