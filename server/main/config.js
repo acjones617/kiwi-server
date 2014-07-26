@@ -5,6 +5,7 @@ var bodyParser     = require('body-parser'),
     morgan         = require('morgan'),
     methodOverride = require('method-override'),
     passport       = require('../auth/passport_config'),
+    errorHandler   = require('errorhandler'),
     Promise        = require('bluebird');
 
 /*
@@ -22,6 +23,7 @@ module.exports = exports = function (app, express, routers) {
 
   app.set('port', process.env.PORT || 3000);
   app.set('base url', process.env.URL || 'http://localhost');
+  app.set('env', process.env.URL === 'http://localhost' ? 'development' : 'production');
 
   app.use(middle.cors);
 
@@ -33,18 +35,16 @@ module.exports = exports = function (app, express, routers) {
   app.use('/api/user', routers.UserRouter);
   app.use('/api/kiwi', routers.KiwiRouter);
 
-  app.use('/api/*', function() {
-    var err = new Error();
-    err.status = 404;
-    next(err);
+  app.use('/api/*', function(req, res, next) {
+    next({ err: 'Not Found', status: 404 });
   });
 
-
-  app.use(middle.logError);
-  app.use(middle.handleError);
-
   // Error handler - has to be last
-  // if ('development' === app.get('env')) {
-  //   app.use(errorHandler());
-  // }
+
+  if ('development' === app.get('env')) {
+    app.use(errorHandler());
+  } else {
+    app.use(middle.logError);
+    app.use(middle.handleError);
+  }
 };
