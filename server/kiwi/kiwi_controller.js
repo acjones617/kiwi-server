@@ -34,6 +34,17 @@ module.exports = {
     
   },
 
+  addKiwiValue: function(req, res, next) {
+    // expect kiwiId, value:
+    dbRequest.queryAsync(query.addKiwiValues(req.body.kiwiData))
+    .then(function() {
+      res.send(201);
+    })
+    .catch(function(err) {
+      next({ err: err, status: 500 });
+    })
+  },
+
   getKiwiValues: function(req, res, next) {
     dbRequest.queryAsync(query.getKiwiValues(req.body.kiwiData))
     .then(function(kiwiValues) {
@@ -42,11 +53,6 @@ module.exports = {
     .catch(function(err) {
       next({ err: err, status: 500 });
     })
-  },
-
-  addKiwiValue: function(req, res, next) {
-    // expect kiwiId, value:
-
   },
 
   getKiwiUpdates: function(req, res, next) {

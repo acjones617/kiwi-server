@@ -22,6 +22,12 @@ var qRemoveKiwi = function(kiwiData) {
   return query;
 };
 
+var qAddKiwiValue = function(kiwiData) {
+  var query = 
+  "INSERT INTO dbo.kiwi_values (kiwi_id, value)\n" +
+  "VALUES (" + kiwiData.id + ", " + kiwiData.value + ");";
+}
+
 var qGetKiwiValues = function(kiwiData) {
   var query =
   "SELECT *\n" +
@@ -59,6 +65,7 @@ var qKiwiNeedingUpdates = function() {
 var queries = {
   addKiwi: qAddKiwi,
   removeKiwi: qRemoveKiwi,
+  addKiwiValue: qAddKiwiValue,
   getKiwiValues: qGetKiwiValues,
   checkKiwiExistence: qCheckKiwiExistence,
   kiwiNeedingUpdates: qKiwiNeedingUpdates
