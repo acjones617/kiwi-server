@@ -34,9 +34,11 @@ module.exports = exports = function (app, express, routers) {
 
   app.use('/api/user', routers.UserRouter);
   app.use('/api/kiwi', routers.KiwiRouter);
+  app.use('/api/group', routers.GroupRouter);
+
 
   app.use('/api/*', function(req, res, next) {
-    next({ err: 'Not Found', status: 404 });
+    next({ error: 'Not Found', status: 404 });
   });
 
   // Error handler - has to be last

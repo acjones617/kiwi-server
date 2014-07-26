@@ -8,7 +8,7 @@ var SchemaRouter      = express.Router();
 var AuthRouter        = express.Router();
 var UserRouter        = express.Router();
 var KiwiRouter        = express.Router();
-var NotFoundRouter    = express.Router();
+var GroupRouter       = express.Router();
 
 var routers = {};
 
@@ -16,7 +16,7 @@ routers.SchemaRouter      = SchemaRouter;
 routers.AuthRouter        = AuthRouter;
 routers.UserRouter        = UserRouter;
 routers.KiwiRouter        = KiwiRouter;
-routers.NotFoundRouter    = NotFoundRouter;
+routers.GroupRouter       = GroupRouter;
 
 // connect to database once
 require('./db_connection');
@@ -27,7 +27,7 @@ require('../schema/schema_routes')(SchemaRouter, app);
 require('../auth/auth_routes')(AuthRouter);
 require('../user/user_routes')(UserRouter);
 require('../kiwi/kiwi_routes')(KiwiRouter);
-require('../main/notFound')(NotFoundRouter);
+require('../group/group_routes')(GroupRouter);
 
 module.exports = exports = app;
 
