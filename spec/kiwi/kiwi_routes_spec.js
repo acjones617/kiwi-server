@@ -8,7 +8,7 @@ var expectedAPI = {
   '/add':              ['post'],
   '/values/:kiwiId':   ['get', 'post'],
   '/update':           ['get'],
-  '/remove':           ['put']
+  '/remove/:kiwiId':   ['put']
 };
 
 describe('kiwi Routes', function () {
