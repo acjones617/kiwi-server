@@ -36,7 +36,7 @@ module.exports = {
 
   addKiwiValue: function(req, res, next) {
     // expect kiwiId, value:
-    dbRequest.queryAsync(query.addKiwiValues(req.params.kiwiId, req.body.kiwiData))
+    dbRequest.queryAsync(query.addKiwiValue(req.params.kiwiId, req.body.kiwiData))
     .then(function() {
       res.send(201);
     })
@@ -59,8 +59,7 @@ module.exports = {
     // for the crawler to know what kiwis need updating
     dbRequest.queryAsync(query.kiwiNeedingUpdates())
     .then(function(foundKiwis) {
-      console.log('kiwis need updating:', foundKiwis);
-      res.send(foundKiwis);
+      res.send({ kiwisNeedingUpdate: foundKiwis });
     })
     .catch(function(err) {
       next({ error: err, status: 500 });
@@ -68,6 +67,12 @@ module.exports = {
   },
 
   removeKiwi: function (req, res, next) {
-
+    dbRequest.queryAsync(query.removeKiwi(req.params.kiwiId))
+    .then(function(removedKiwi) {
+      res.send(200);
+    })
+    .catch(function(err) {
+      next({ error: err, status: 500 });
+    })
   }
 };
