@@ -13,11 +13,11 @@ var qAddKiwi = function(email, kiwiData) {
   return query;
 };
 
-var qRemoveKiwi = function(kiwiData) {
+var qRemoveKiwi = function(kiwiId) {
   var query =
   "UPDATE dbo.kiwis\n" +
   "SET deleted = 1\n" +
-  "WHERE id = " + kiwiData.id + ";";
+  "WHERE id = " + kiwiId + ";";
 
   return query;
 };
@@ -26,13 +26,15 @@ var qAddKiwiValue = function(kiwiId, kiwiData) {
   var query = 
   "INSERT INTO dbo.kiwi_values (kiwi_id, value)\n" +
   "VALUES (" + kiwiId + ", " + kiwiData.value + ");";
+
+  return query;
 }
 
 var qGetKiwiValues = function(kiwiId) {
   var query =
   "SELECT *\n" +
-  "FROM dbo.kiwi_values\n" +
-  "WHERE kiwi_id = " + kiwiId + ";";
+  "FROM dbo.kiwi_values kv\n" +
+  "WHERE kv.kiwi_id = " + kiwiId + ";";
 
   return query;
 }
@@ -45,10 +47,8 @@ var qCheckKiwiExistence = function(email, kiwiData) {
   "JOIN dbo.users u\n" +
   "ON k.user_id = u.id\n" +
   "WHERE u.email = '" + email + "'\n" +
-  "AND k.deleted = 0\n"
-  "AND k.title = '" + kiwiData.title + "'\n"
-  "AND k.path = '" + kiwiData.path + "'"
-  "AND k.url = '" + kiwiData.url + "';";
+  // "AND k.deleted = 0\n" +
+  "AND k.title = '" + kiwiData.title + "';";
 
   return query;
 };
