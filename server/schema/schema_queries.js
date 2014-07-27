@@ -91,22 +91,23 @@ var qInsertSeedData =
 var qInsertKiwi = 
   "INSERT INTO dbo.kiwis (user_id, title, path, url, last_updated)\n" +
     "SELECT id,\n" +
-      "'" + mockData.kiwi.title + "',\n" +
-      "'" + mockData.kiwi.path + "',\n" +
-      "'" + mockData.kiwi.url + "',\n" +
-      "'" + mockData.kiwi.last_updated + "'\n" +
+      "'" + mockData.kiwi.kiwiData.title + "',\n" +
+      "'" + mockData.kiwi.kiwiData.path + "',\n" +
+      "'" + mockData.kiwi.kiwiData.url + "',\n" +
+      "'" + mockData.kiwi.kiwiData.last_updated + "'\n" +
     "FROM dbo.users\n" +
     "WHERE email = '" + mockData.signup.email + "';";
 
+
 var qInsertKiwiValue = 
   "INSERT INTO dbo.kiwi_values (kiwi_id, value)\n" +
-    "SELECT k.id, " + mockData.kiwi.value + "\n" +
+    "SELECT k.id, " + mockData.kiwi.kiwiData.value + "\n" +
     "FROM dbo.kiwis k\n" +
     "JOIN dbo.users u\n" +
     "ON u.id = k.user_id\n" +
-    "WHERE k.title = '" + mockData.kiwi.title + "'\n" +
-    "AND k.path ='" + mockData.kiwi.path + "'\n" +
-    "AND k.url ='" + mockData.kiwi.url + "'\n" +
+    "WHERE k.title = '" + mockData.kiwi.kiwiData.title + "'\n" +
+    "AND k.path ='" + mockData.kiwi.kiwiData.path + "'\n" +
+    "AND k.url ='" + mockData.kiwi.kiwiData.url + "'\n" +
     "AND email = '" + mockData.signup.email + "';";
 
 var qInsertGroup = 
@@ -129,13 +130,13 @@ var qInsertKiwiGroup =
 
 var qInsertKiwiValue = 
   "INSERT INTO dbo.kiwi_values (kiwi_id, value)\n" +
-    "SELECT k.id, " + mockData.kiwi.value + "\n" +
+    "SELECT k.id, " + mockData.kiwi.kiwiData.value + "\n" +
     "FROM dbo.kiwis k\n" +
     "JOIN dbo.users u\n" +
     "ON u.id = k.user_id\n" +
-    "WHERE k.title = '" + mockData.kiwi.title + "'\n" +
-    "AND k.path ='" + mockData.kiwi.path + "'\n" +
-    "AND k.url ='" + mockData.kiwi.url + "'\n" +
+    "WHERE k.title = '" + mockData.kiwi.kiwiData.title + "'\n" +
+    "AND k.path ='" + mockData.kiwi.kiwiData.path + "'\n" +
+    "AND k.url ='" + mockData.kiwi.kiwiData.url + "'\n" +
     "AND email = '" + mockData.signup.email + "';";
 
   "IF OBJECT_ID('dbo.kiwi_group', 'U') IS NOT NULL\n" +

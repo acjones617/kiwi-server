@@ -13,6 +13,6 @@ module.exports = function(router) {
   router.route('/update')
     .get(controller.getKiwiUpdates)
 
-  router.route('/remove')
+  router.route('/remove/:kiwiId')
     .put(controller.removeKiwi);
 };

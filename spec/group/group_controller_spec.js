@@ -33,36 +33,36 @@ describe('Group Controller', function () {
 
 describe('Group Controller', function () {
 
-  it('should return group info', function (done) {
-    getTestGroup()
-    .then(function(foundGroup) {
-      request(app)
-      .get('/api/group/info/' + foundGroup[0].id)
-      .set('x-access-token', authData.validJwt)
-      .end(function (err, res) {
-        if (err) return done(err);
-        expect(res.statusCode).toEqual(200);
-        expect(res.body.group.name).toEqual(testData.group.name);
-        done();
-      });
-    });
-  });
+  // it('should return group info', function (done) {
+  //   getTestGroup()
+  //   .then(function(foundGroup) {
+  //     request(app)
+  //     .get('/api/group/info/' + foundGroup[0].id)
+  //     .set('x-access-token', authData.validJwt)
+  //     .end(function (err, res) {
+  //       if (err) return done(err);
+  //       expect(res.statusCode).toEqual(200);
+  //       expect(res.body.group.name).toEqual(testData.group.name);
+  //       done();
+  //     });
+  //   });
+  // });
 
-  it('should return the group\'s kiwis', function (done) {
-    getTestGroup()
-    .then(function(foundGroup) {
-      request(app)
-      .get('/api/group/kiwis/' + foundGroup[0].id)
-      .set('x-access-token', authData.validJwt)
-      .end(function(err, res) {
-        if (err) return done(err);
-        console.log(res.body);
-        expect(res.statusCode).toEqual(200);
-        expect(res.body.kiwis[0].title).toEqual(testData.kiwi.title);
-        done();
-      })
-    })
-  });
+  // it('should return the group\'s kiwis', function (done) {
+  //   getTestGroup()
+  //   .then(function(foundGroup) {
+  //     request(app)
+  //     .get('/api/group/kiwis/' + foundGroup[0].id)
+  //     .set('x-access-token', authData.validJwt)
+  //     .end(function(err, res) {
+  //       if (err) return done(err);
+  //       console.log(res.body);
+  //       expect(res.statusCode).toEqual(200);
+  //       expect(res.body.kiwis[0].title).toEqual(testData.kiwi.title);
+  //       done();
+  //     })
+  //   })
+  // });
 
 
 

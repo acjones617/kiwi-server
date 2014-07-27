@@ -12,5 +12,4 @@ module.exports = function(router) {
 
   router.route('/create')
     .post(controller.createGroup);
-
 };
