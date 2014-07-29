@@ -130,7 +130,7 @@ describe('Group Controller', function () {
       .end(function(err, res) {
         if (err) return done(err);
         expect(res.statusCode).toEqual(200);
-        expect(res.body.kiwis[0].title).toEqual(kiwiData.kiwi.valid.kiwiData.title);
+        expect(res.body.kiwis[0].title).toEqual(testData.kiwi.kiwiData.title);
         done();
       });
     })

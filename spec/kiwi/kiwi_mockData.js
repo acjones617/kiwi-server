@@ -43,7 +43,15 @@ data.queries.deleteKiwi =
   "WHERE u.email = '" + testData.signup.email + "'\n" +
   "AND k.title = '" + data.kiwi.valid.kiwiData.title + "';";
 
-data.queries.getTestKiwi = 
+data.queries.getTestKiwi =
+  "SELECT k.*\n" +
+  "FROM dbo.kiwis k\n" +
+  "JOIN dbo.users u\n" +
+  "ON k.user_id = u.id\n" +
+  "WHERE u.email = '" + testData.signup.email + "'\n" +
+  "AND k.title = '" + testData.kiwi.kiwiData.title + "';";
+
+data.queries.getNewKiwi =
   "SELECT k.*\n" +
   "FROM dbo.kiwis k\n" +
   "JOIN dbo.users u\n" +

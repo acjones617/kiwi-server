@@ -7,8 +7,8 @@ var mockData = require('./kiwi_mockData');
 var authData = require('../../server/main/config_db_development');
 var testData = require('../../server/schema/schema_mockData');
 
-var getTestKiwi = function() {
-  return dbRequest.queryAsync(mockData.queries.getTestKiwi);
+var getNewKiwi = function() {
+  return dbRequest.queryAsync(mockData.queries.getNewKiwi);
 }
 
 describe('Kiwi Controller', function () {
@@ -77,7 +77,7 @@ describe('Kiwi Controller', function () {
 
 
   it('should be able to add a kiwi value', function (done) {
-    getTestKiwi()
+    getNewKiwi()
     .then(function(foundKiwi) {
       request(app)
       .post('/api/kiwi/values/' + foundKiwi[0].id)
@@ -93,7 +93,7 @@ describe('Kiwi Controller', function () {
 
 
   it('should be able to retrieve that same kiwi value', function (done) {
-    getTestKiwi()
+    getNewKiwi()
     .then(function(foundKiwi) {
       request(app)
       .get('/api/kiwi/values/' + foundKiwi[0].id)
@@ -120,14 +120,14 @@ describe('Kiwi Controller', function () {
   });
 
   it('should be able to remove an already existing kiwi', function (done) {
-    getTestKiwi()
+    getNewKiwi()
     .then(function(foundKiwi) {
       request(app)
       .put('/api/kiwi/remove/' + foundKiwi[0].id)
       .set('x-access-token', authData.validJwt)
       .end(function (err, res) {
         if (err) return done(err);
-        expect(res.statusCode).toEqual(200);
+        expect(res.statusCode).toEqual(201);
         done();
       });
     })

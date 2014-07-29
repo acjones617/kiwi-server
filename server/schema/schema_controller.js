@@ -44,7 +44,7 @@ module.exports = function(app) {
         // create new user
         request(app)
         .post('/auth/signup')
-        .send({ email: 'test@test.com',password: 'verysecure password' })
+        .send({ email: 'test@test.com', password: 'verysecure password' })
         .end(function (err, response) {
           // sample user created, create sample kiwi
           console.log('dummy user created!!');

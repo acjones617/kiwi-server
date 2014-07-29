@@ -70,6 +70,7 @@ var qCreateGroups =
     "name varchar(255),\n" +
     "description varchar(1000),\n" +
     "is_public bit DEFAULT 0,\n" +
+    "deleted bit DEFAULT 0,\n" +
     "created_at datetime DEFAULT GETDATE()\n" +
     "CONSTRAINT AK_groups_user_name UNIQUE(user_id, name));";
 
