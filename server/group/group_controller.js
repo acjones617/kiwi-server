@@ -2,6 +2,7 @@
 
 var query = require('./group_queries');
 var dbRequest = require('../main/db_connection');
+var Promise = require('bluebird');
 
 module.exports = {
 
@@ -38,12 +39,12 @@ module.exports = {
   createGroup: function(req, res, next) {
     dbRequest.queryAsync(query.lookupGroup(req.user.email, req.body.groupData))
     .then(function(foundGroup) {
-      if (foundUser.length) {
+      if (foundGroup.length) {
         return new Promise(function(resolve, reject) {
           reject('user already has group by that name')
         });
       } else {
-        // if no user exists, move along with group creation
+        // if no group exists, move along with group creation
         return dbRequest.queryAsync(query.createGroup(req.user.email, req.body.groupData))
       }
     })
