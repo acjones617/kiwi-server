@@ -113,8 +113,8 @@ var qInsertKiwiValue =
 var qInsertGroup = 
   "INSERT INTO dbo.groups (user_id, name, description)\n" +
     "SELECT id,\n" +
-      "'" + mockData.group.name + "',\n" +
-      "'" + mockData.group.description + "'\n" +
+      "'" + mockData.group.groupData.name + "',\n" +
+      "'" + mockData.group.groupData.description + "'\n" +
     "FROM dbo.users\n" +
     "WHERE email = '" + mockData.signup.email + "';";
 

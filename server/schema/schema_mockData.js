@@ -16,6 +16,8 @@ data.kiwi = {
 };
 
 data.group = { 
-  name:         "Test Group",
-  description:  "Dummy group for tests"
+  groupData: {
+    name:         "Test Group",
+    description:  "Dummy group for tests"
+  }
 };
