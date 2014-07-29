@@ -5,7 +5,10 @@ var router = express.Router();
 userRoutes(router); // extends 'router' with userRoutes module
 
 var expectedAPI = {
-  '/info':      ['get']
+  '/info':      ['get'],
+  '/kiwis':     ['get'],
+  '/groups':    ['get'],
+  '/allData':   ['get']
 };
 
 describe('user Routes', function () {
