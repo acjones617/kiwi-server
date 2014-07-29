@@ -50,3 +50,13 @@ data.queries.getTestKiwi =
   "ON k.user_id = u.id\n" +
   "WHERE u.email = '" + testData.signup.email + "'\n" +
   "AND k.title = '" + data.kiwi.valid.kiwiData.title + "';";
+
+data.queries.deleteKiwiGroups =
+  "DELETE dbo.kiwi_group\n" +
+  "FROM dbo.kiwi_group kg\n" +
+  "JOIN dbo.kiwis k\n" +
+  "ON kg.kiwi_id = k.id\n" +
+  "JOIN dbo.users u\n" +
+  "ON k.user_id = u.id\n" +
+  "WHERE u.email = '" + testData.signup.email + "'\n" +
+  "AND k.title = '" + data.kiwi.valid.kiwiData.title + "';";

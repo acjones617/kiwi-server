@@ -41,8 +41,12 @@ describe('Kiwi Controller', function () {
     // delete all kiwi values on kiwi if they exist
     dbRequest.queryAsync(mockData.queries.deleteKiwiValues)
     .then(function() {
+      // delete kiwi-groups if they exist
+      return dbRequest.queryAsync(mockData.queries.deleteKiwiGroups);
+    })
+    .then(function() {
       // delete kiwi if it exists
-      return dbRequest.queryAsync(mockData.queries.deleteKiwi)
+      return dbRequest.queryAsync(mockData.queries.deleteKiwi);
     })
     .then(function() {
       request(app)
@@ -51,7 +55,6 @@ describe('Kiwi Controller', function () {
       .send(mockData.kiwi.valid)
       .end(function (err, res) {
         if (err) return done(err);
-        console.log('CREATED KIWI?!', res.body.message);
         expect(res.statusCode).toEqual(201);
         expect(res.body.message).toEqual('kiwi created');
         done();
