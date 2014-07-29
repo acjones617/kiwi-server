@@ -48,8 +48,7 @@ var qCreateGroup = function(email, groupData) {
   "INSERT INTO dbo.groups (user_id, name, description)\n" +
   "SELECT u.id, '" + groupData.name + "', '" + groupData.description + "'\n" +
   "FROM dbo.users u\n" +
-  "WHERE u.email = '" + email + "';\n" +
-  "GO\n"
+  "WHERE u.email = '" + email + "';\n"
   
   return query;
 };
