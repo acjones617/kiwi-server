@@ -13,11 +13,15 @@ var qAddKiwi = function(email, kiwiData) {
   return query;
 };
 
-var qRemoveKiwi = function(kiwiId) {
+var qRemoveKiwi = function(email, kiwiId) {
   var query =
   "UPDATE dbo.kiwis\n" +
   "SET deleted = 1\n" +
-  "WHERE id = " + kiwiId + ";";
+  "FROM dbo.kiwis k\n" +
+  "JOIN dbo.users u\n" +
+  "ON u.id = k.user_id\n" + 
+  "WHERE k.id = " + kiwiId + " \n"
+  "AND u.email = '" + email + "';";
 
   return query;
 };

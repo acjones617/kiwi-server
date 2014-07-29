@@ -67,9 +67,10 @@ module.exports = {
   },
 
   removeKiwi: function (req, res, next) {
-    dbRequest.queryAsync(query.removeKiwi(req.params.kiwiId))
+    dbRequest.queryAsync(query.removeKiwi(req.user.email, req.params.kiwiId))
     .then(function(removedKiwi) {
-      res.send(200);
+      console.log('REMOVED KIWI', removedKiwi);
+      res.send(201);
     })
     .catch(function(err) {
       next({ error: err, status: 500 });
