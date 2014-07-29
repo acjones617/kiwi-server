@@ -59,4 +59,14 @@ module.exports = {
       }
     });
   },
+  
+  removeGroup: function(req, res, next) {
+    dbRequest.queryAsync(query.createGroup(req.user.email, req.params.groupId))
+    .then(function() {
+      res.send(201);
+    })
+    .catch(function(err) {
+      next({ error: err, status: 500 });
+    });
+  },
 }
