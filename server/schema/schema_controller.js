@@ -1,7 +1,9 @@
-var query = require('./schema_queries');
-var dbRequest = require('../main/db_connection');
-var request = require('supertest');
-var authData = require('../main/config_db_development');
+'use strict';
+
+var query       = require('./schema_queries'),
+    dbRequest   = require('../main/db_connection'),
+    request     = require('supertest'),
+    authData    = require('../main/config_db_development');
 
 module.exports = function(app) {
   return {

@@ -1,43 +1,43 @@
 'use strict';
 
-var query = require('./user_queries');
-var dbRequest = require('../main/db_connection');
+var query       = require('./user_queries'),
+    dbRequest   = require('../main/db_connection');
 
 module.exports = {
 
   getUserInfo: function (req, res, next) {
     dbRequest.queryAsync(query.getUserInfo(req.user.email))
-    .then(function(foundUser) {
+    .then(function (foundUser) {
       res.send({ user: foundUser[0] });
     })
-    .catch(function(err) {
+    .catch(function (err) {
       next({ error: err, status: 500 });
     });
   },
 
-  getUserKiwis: function(req, res, next) {
+  getUserKiwis: function (req, res, next) {
     dbRequest.queryAsync(query.getUserKiwis(req.user.email))
-    .then(function(foundKiwis) {
+    .then(function (foundKiwis) {
       res.send({ kiwis: foundKiwis });
     })
-    .catch(function(err) {
+    .catch(function (err) {
       next({ error: err, status: 500 });
     })
   },
 
-  getUserGroups: function(req, res, next) {
+  getUserGroups: function (req, res, next) {
     dbRequest.queryAsync(query.getUserGroups(req.user.email))
-    .then(function(foundGroups) {
+    .then(function (foundGroups) {
       res.send({ groups: foundGroups });
     })
-    .catch(function(err) {
+    .catch(function (err) {
       next({ error: err, status: 500 });
     })
   },
 
-  getAllData: function(req, res, next) {
+  getAllData: function (req, res, next) {
     dbRequest.queryAsync(query.getAllData(req.user.email))
-    .then(function(foundData) {
+    .then(function (foundData) {
       // manipulate foundData into nested JSON object to send
       // {group1: kiwi1: [{date: 2, value: 1}], kiwi2: [], group2: ...}
       var toSend = {};
@@ -57,9 +57,8 @@ module.exports = {
       }
       res.send(toSend);
     })
-    .catch(function(err) {
+    .catch(function (err) {
       next({ error: err, status: 500 });
     })
   }
-
 }

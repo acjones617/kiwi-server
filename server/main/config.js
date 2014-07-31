@@ -8,9 +8,6 @@ var bodyParser     = require('body-parser'),
     errorHandler   = require('errorhandler'),
     Promise        = require('bluebird');
 
-/*
- * Include all global env variables here.
-*/
 module.exports = exports = function (app, express, routers) {
   app.engine('html', require('ejs').renderFile);
   app.set('view engine', 'html');
@@ -20,16 +17,15 @@ module.exports = exports = function (app, express, routers) {
 
   app.use(passport.initialize());
 
-
   app.set('port', process.env.PORT || 3000);
   app.set('base url', process.env.URL || 'http://localhost');
-  app.set('env', process.env.URL === 'http://localhost' ? 'development' : 'production');
 
   app.use(middle.cors);
 
   app.use('/schema' , routers.SchemaRouter);
   app.use('/auth', routers.AuthRouter);
 
+  // protect all api routes - user must provide valid jwt
   app.use('/api', middle.auth);
 
   app.use('/api/user', routers.UserRouter);
@@ -41,12 +37,7 @@ module.exports = exports = function (app, express, routers) {
     next({ error: 'Not Found', status: 404 });
   });
 
-  // Error handler - has to be last
-
-  if ('development' === app.get('env')) {
-    app.use(errorHandler());
-  } else {
-    app.use(middle.logError);
-    app.use(middle.handleError);
-  }
+  // Error handler
+  app.use(middle.logError);
+  app.use(middle.handleError);
 };

@@ -30,5 +30,3 @@ require('../kiwi/kiwi_routes')(KiwiRouter);
 require('../group/group_routes')(GroupRouter);
 
 module.exports = exports = app;
-
-/* jslint node: true */

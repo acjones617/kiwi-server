@@ -1,15 +1,15 @@
 'use strict';
 
-var passport = require('passport');
-var jwt = require('jsonwebtoken');
-var bcrypt = require('bcrypt');
-var Promise = require('bluebird');
-var query = require('./auth_queries');
-var dbRequest = require('../main/db_connection');
+var passport    = require('passport'),
+    jwt         = require('jsonwebtoken'),
+    bcrypt      = require('bcrypt'),
+    Promise     = require('bluebird'),
+    query       = require('./auth_queries'),
+    dbRequest   = require('../main/db_connection');
 
 Promise.promisifyAll(bcrypt);
 
-var sendJwt = function(req, res) {
+var sendJwt = function (req, res) {
   var tokenSecret = process.env.SECRET_JWT || 'super secret token'
   // expires in one year
   var token = jwt.sign({ email: req.body.email }, tokenSecret, { expiresInMinutes: 60 * 24 * 365 });
@@ -35,9 +35,9 @@ module.exports = {
   signup: function (req, res, next) {
     // check is user already exists
     dbRequest.queryAsync(query.lookupUser(req.body.email))
-    .then(function(foundUser) {
+    .then(function (foundUser) {
       if (foundUser.length) {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
           reject('user already exists')
         });
       } else {
@@ -45,10 +45,10 @@ module.exports = {
         return bcrypt.genSaltAsync(10);
       }
     })
-    .then(function(salt) {
+    .then(function (salt) {
       return bcrypt.hashAsync(req.body.password, salt);
     })
-    .then(function(hash_password) {
+    .then(function (hash_password) {
       // insert into sql
       return dbRequest.queryAsync(query.signupUser(req.body.email, hash_password))
     })
@@ -56,7 +56,7 @@ module.exports = {
       // send back jwt
       sendJwt(req, res);
     })
-    .catch(function(err) {
+    .catch(function (err) {
       if (err === 'user already exists') {
         next({ error: err, status: 403 });
       } else {

@@ -1,46 +1,46 @@
 'use strict';
 
-var query = require('./group_queries');
-var dbRequest = require('../main/db_connection');
-var Promise = require('bluebird');
+var query       = require('./group_queries'),
+    dbRequest   = require('../main/db_connection'),
+    Promise     = require('bluebird');
 
 module.exports = {
 
   getGroupInfo: function (req, res, next) {
     dbRequest.queryAsync(query.getGroupInfo(req.user.email, req.params.groupId))
-    .then(function(foundGroup) {
+    .then(function (foundGroup) {
       res.send({ group: foundGroup[0] });
     })
-    .catch(function(err) {
+    .catch(function (err) {
       next({ error: err, status: 500 });
     });
   },
 
-  getKiwis: function(req, res, next) {
+  getKiwis: function (req, res, next) {
     dbRequest.queryAsync(query.getKiwisOfGroup(req.params.groupId))
-    .then(function(foundKiwis) {
+    .then(function (foundKiwis) {
       res.send({ kiwis: foundKiwis });
     })
-    .catch(function(err) {
+    .catch(function (err) {
       next({ error: err, status: 500 });
     });
   },
 
-  addKiwi: function(req, res, next) {
+  addKiwi: function (req, res, next) {
     dbRequest.queryAsync(query.addKiwiToGroup(req.params.groupId, req.body.kiwiData))
     .then(function() {
       res.send(201);
     })
-    .catch(function(err) {
+    .catch(function (err) {
       next({ error: err, status: 500 });
     });
   },
 
-  createGroup: function(req, res, next) {
+  createGroup: function (req, res, next) {
     dbRequest.queryAsync(query.lookupGroup(req.user.email, req.body.groupData))
-    .then(function(foundGroup) {
+    .then(function (foundGroup) {
       if (foundGroup.length) {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
           reject('user already has group by that name')
         });
       } else {
@@ -51,7 +51,7 @@ module.exports = {
     .then(function() {
       res.send(201);
     })
-    .catch(function(err) {
+    .catch(function (err) {
       if (err === 'user already has group by that name') {
         next({ error: err, status: 403 });
       } else {
@@ -60,12 +60,12 @@ module.exports = {
     });
   },
   
-  removeGroup: function(req, res, next) {
+  removeGroup: function (req, res, next) {
     dbRequest.queryAsync(query.createGroup(req.user.email, req.params.groupId))
     .then(function() {
       res.send(201);
     })
-    .catch(function(err) {
+    .catch(function (err) {
       next({ error: err, status: 500 });
     });
   },

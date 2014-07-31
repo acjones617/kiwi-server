@@ -33,17 +33,6 @@ module.exports = exports = {
     }
   },
 
-  /**
-   * Set a cookie for angular so it knows we have an http session
-   */
-  setUserCookie: function(req, res, next) {
-    if(req.user) {
-      res.cookie('user', JSON.stringify(req.user.userInfo));
-    }
-    next();
-  },
-
-
   logError: function (err, req, res, next) {
     if (err) {
       console.error(err);

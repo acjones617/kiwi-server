@@ -1,6 +1,6 @@
 'use strict';
 
-var qGetUserInfo = function(email) {
+var qGetUserInfo = function (email) {
   var query =
   "SELECT u.email as 'email', al.level as 'accountLevel', u.notified as 'notified', u.created_at as 'createdAt'\n" +
   "FROM dbo.users u\n" +
@@ -11,7 +11,7 @@ var qGetUserInfo = function(email) {
   return query;
 };
 
-var qGetUserKiwis = function(email) {
+var qGetUserKiwis = function (email) {
   var query =
   "SELECT k.*\n" +
   "FROM dbo.users u\n" +
@@ -23,7 +23,7 @@ var qGetUserKiwis = function(email) {
   return query;
 };
 
-var qGetUserGroups = function(email) {
+var qGetUserGroups = function (email) {
   var query =
   "SELECT g.*\n" +
   "FROM dbo.users u\n" +
@@ -35,7 +35,7 @@ var qGetUserGroups = function(email) {
   return query;
 };
 
-var qGetAllData = function(email) {
+var qGetAllData = function (email) {
   var query =
   "SELECT g.name as groupName, k.title as kiwiTitle, kv.date as date, kv.value as value\n" +
   "FROM dbo.users u\n" +
