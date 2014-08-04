@@ -22,12 +22,20 @@ describe('Group Controller', function () {
     expect(groupCtrl.getGroupInfo).toEqual(jasmine.any(Function));
   });
 
+  it('should have an editGroupInfo method', function () {
+    expect(groupCtrl.editGroupInfo).toEqual(jasmine.any(Function));
+  });
+
   it('should have a getKiwis method', function () {
     expect(groupCtrl.getKiwis).toEqual(jasmine.any(Function));
   });
 
   it('should have an addKiwi method', function () {
     expect(groupCtrl.addKiwi).toEqual(jasmine.any(Function));
+  });
+
+  it('should have a removeKiwi method', function () {
+    expect(groupCtrl.removeKiwi).toEqual(jasmine.any(Function));
   });
 
   it('should have a createGroup method', function () {
@@ -38,6 +46,21 @@ describe('Group Controller', function () {
 
 describe('Group Controller', function () {
 
+  it('should edit group info', function (done) {
+    getTestGroup()
+    .then(function(foundGroup) {
+      request(app)
+      .put('/api/group/info/' + foundGroup[0].id)
+      .set('x-access-token', authData.validJwt)
+      .send(mockData.group.edit)
+      .end(function (err, res) {
+        if (err) return done(err);
+        expect(res.statusCode).toEqual(201);
+        done();
+      });
+    });
+  });
+
   it('should return group info', function (done) {
     getTestGroup()
     .then(function(foundGroup) {
@@ -47,7 +70,8 @@ describe('Group Controller', function () {
       .end(function (err, res) {
         if (err) return done(err);
         expect(res.statusCode).toEqual(200);
-        expect(res.body.group.name).toEqual(testData.group.groupData.name);
+        expect(res.body.group.name).toEqual(mockData.group.edit.groupData.name);
+        expect(res.body.group.description).toEqual(mockData.group.edit.groupData.description);
         done();
       });
     });

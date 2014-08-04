@@ -5,9 +5,10 @@ var router = express.Router();
 groupRoutes(router); // extends 'router' with groupRoutes module
 
 var expectedAPI = {
-  '/info/:groupId':   ['get'],
-  '/kiwis/:groupId':  ['get', 'post'],
-  '/create':          ['post']
+  '/info/:groupId':     ['get', 'put'],
+  '/kiwis/:groupId':    ['get', 'post', 'delete'],
+  '/create':            ['post'],
+  '/remove/:groupId':   ['put']
 };
 
 describe('Group Routes', function () {

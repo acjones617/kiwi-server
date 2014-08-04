@@ -15,6 +15,10 @@ data.group.valid = {
 
 data.group.invalid = testData.group;
 
+data.group.edit = testData.group;
+
+data.group.edit.groupData.description = "This group has been edited";
+
 data.queries = {};
 
 data.queries.getTestGroup = 
