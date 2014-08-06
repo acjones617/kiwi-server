@@ -39,7 +39,7 @@ var qEditGroupInfo = function (email, groupId, groupData) {
   "is_public = " + groupData.public + "\n" +
   "FROM dbo.groups g\n" +
   "JOIN dbo.users u\n" +
-  "ON g.userId = u.id\n" +
+  "ON g.user_id = u.id\n" +
   "WHERE u.email = '" + email + "'\n" +
   "AND g.id = " + groupId + ";";
 

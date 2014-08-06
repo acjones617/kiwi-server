@@ -1,5 +1,7 @@
 'use strict'
 
+var data;
+
 module.exports = exports = data = {};
 
 data.signup = {
