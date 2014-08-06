@@ -27,9 +27,17 @@ var qRemoveKiwi = function(email, kiwiId) {
 };
 
 var qAddKiwiValue = function(kiwiId, kiwiData) {
-  var query = 
-  "INSERT INTO dbo.kiwi_values (kiwi_id, value)\n" +
-  "VALUES (" + kiwiId + ", " + kiwiData.value + ");";
+  var query;
+
+  if (kiwiData.date) {
+    query = 
+    "INSERT INTO dbo.kiwi_values (kiwi_id, value, date)\n" +
+    "VALUES (" + kiwiId + ", " + kiwiData.value + ",'" + kiwiData.date + "');";
+  } else {
+    query = 
+    "INSERT INTO dbo.kiwi_values (kiwi_id, value)\n" +
+    "VALUES (" + kiwiId + ", " + kiwiData.value + ");";
+  }
 
   return query;
 }
@@ -46,7 +54,7 @@ var qGetKiwiValues = function(kiwiId) {
 // so that user doesn't select same kiwi twice...
 var qCheckKiwiExistence = function(email, kiwiData) {
   var query =
-  "SELECT * \n" +
+  "SELECT k.id \n" +
   "FROM dbo.kiwis k\n" +
   "JOIN dbo.users u\n" +
   "ON k.user_id = u.id\n" +

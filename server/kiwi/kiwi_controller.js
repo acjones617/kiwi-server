@@ -18,10 +18,19 @@ module.exports = {
         return dbRequest.queryAsync(query.addKiwi(req.user.email, req.body.kiwiData));
       }
     })
-    .then(function (err, result) {
+    .then(function () {
+      console.log('kiwi added');
+      return dbRequest.queryAsync(query.checkKiwiExistence(req.user.email, req.body.kiwiData));
+    })
+    .then(function (foundKiwi) {
+;      return dbRequest.queryAsync(query.addKiwiValue(foundKiwi[0].id, req.body.kiwiData.values[0]));
+    })
+    .then(function () {
+      console.log('kiwi value added');
       var responseObj = {
         message: 'kiwi created',
-      }
+      };
+    
       res.send(201, responseObj);
     })
     .catch(function (err) {
@@ -36,7 +45,7 @@ module.exports = {
 
   addKiwiValue: function (req, res, next) {
     // expect kiwiId, value:
-    dbRequest.queryAsync(query.addKiwiValue(req.params.kiwiId, req.body.kiwiData))
+    dbRequest.queryAsync(query.addKiwiValue(req.params.kiwiId, req.body.kiwiData.values[0]))
     .then(function() {
       res.send(201);
     })

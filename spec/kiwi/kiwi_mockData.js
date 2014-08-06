@@ -10,7 +10,11 @@ data.kiwi.valid = {
   kiwiData: {
     title: "Dokko1230 (Sean)",
     path: "html>body>div>div>div>div>div>div>div>a>strong.vcard-stat-count:eq(0)",
-    url: "https://github.com/Dokko1230"
+    url: "https://github.com/Dokko1230",
+    values: [{
+      date: '2012-01-01 12:00:30',
+      value: 104
+    }]
   }
 }
 
@@ -18,7 +22,10 @@ data.kiwi.invalid = testData.kiwi;
 
 data.kiwiValues = {
   kiwiData: {
-    value: 20
+    values: [{
+      date: '2012-01-01 12:00:30',
+      value: 104
+    }]
   }
 }
 

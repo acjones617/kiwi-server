@@ -101,7 +101,7 @@ describe('Kiwi Controller', function () {
       .end(function (err, res) {
         if (err) return done(err);
         expect(res.statusCode).toEqual(200);
-        expect(res.body.data[0].value).toEqual(mockData.kiwiValues.kiwiData.value);
+        expect(res.body.data[0].value).toEqual(mockData.kiwiValues.kiwiData.values[0].value);
         done();
       });
     })
