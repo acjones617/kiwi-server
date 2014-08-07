@@ -20,7 +20,8 @@ var qGetUserKiwis = function (email) {
   "JOIN dbo.kiwi_values kv\n" +
   "ON k.id = kv.kiwi_id\n" +
   "WHERE u.email = '" + email + "'\n" +
-  "AND k.deleted = 0;";
+  "AND k.deleted = 0\n" +
+  "ORDER BY k.title;";
 
   return query;
 };

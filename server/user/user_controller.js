@@ -23,26 +23,22 @@ module.exports = {
       var url;
       var values;
       var kiwis = [];
-      var placed;
+      var lastKiwi;
       for (var i = 0; i < foundKiwis.length; i++) {
         title = foundKiwis[i].title;
         url = foundKiwis[i].url;
         values = { value: foundKiwis[i].value, date: foundKiwis[i].date };
-        placed = false;
-        for (var j = 0; j < kiwis.length; j++) {
-          if (kiwis[j].title === title) {
-            kiwis[j].values = kiwis[j].values || [];
-            kiwis[j].values.push(values);
-            placed = true;
-            break;
-          }
-        }
-        if (!placed) {
+        lastKiwi = kiwis[kiwis.length - 1];
+        // since query ordered by title, no need to loop through whole array, 
+        // just look at last element.
+        if (!lastKiwi || lastKiwi.title !== title) {
           kiwis.push({
             title: title,
             url: url,
             values: [values]
-          });
+          })
+        } else {
+          lastKiwi.values.push(values);
         }
       }
       console.log('USER KIWIS', kiwis);
