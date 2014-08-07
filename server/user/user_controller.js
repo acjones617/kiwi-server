@@ -18,7 +18,35 @@ module.exports = {
   getUserKiwis: function (req, res, next) {
     dbRequest.queryAsync(query.getUserKiwis(req.user.email))
     .then(function (foundKiwis) {
-      res.send({ kiwis: foundKiwis });
+      console.log('FOUND KIWIS', foundKiwis);
+      var title;
+      var url;
+      var values;
+      var kiwis = [];
+      var placed;
+      for (var i = 0; i < foundKiwis.length; i++) {
+        title = foundKiwis[i].title;
+        url = foundKiwis[i].url;
+        values = { value: foundKiwis[i].value, date: foundKiwis[i].date };
+        placed = false;
+        for (var j = 0; j < kiwis.length; j++) {
+          if (kiwis[j].title === title) {
+            kiwis[j].values = kiwis[j].values || [];
+            kiwis[j].values.push(values);
+            placed = true;
+            break;
+          }
+        }
+        if (!placed) {
+          kiwis.push({
+            title: title,
+            url: url,
+            values: [values]
+          });
+        }
+      }
+      console.log('USER KIWIS', kiwis);
+      res.send({ kiwis: kiwis });
     })
     .catch(function (err) {
       next({ error: err, status: 500 });

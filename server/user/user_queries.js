@@ -13,10 +13,12 @@ var qGetUserInfo = function (email) {
 
 var qGetUserKiwis = function (email) {
   var query =
-  "SELECT k.*\n" +
+  "SELECT k.title as title, k.url as url, kv.date as date, kv.value as value\n" +
   "FROM dbo.users u\n" +
   "JOIN dbo.kiwis k\n" +
   "ON u.id = k.user_id\n" +
+  "JOIN dbo.kiwi_values kv\n" +
+  "ON k.id = kv.kiwi_id\n" +
   "WHERE u.email = '" + email + "'\n" +
   "AND k.deleted = 0;";
 
