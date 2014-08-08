@@ -65,7 +65,34 @@ module.exports = {
   getUserGroups: function (req, res, next) {
     dbRequest.queryAsync(query.getUserGroups(req.user.email))
     .then(function (foundGroups) {
-      res.send({ groups: foundGroups });
+      console.log('FOUND GROUPS', foundGroups);
+      var id;
+      var name;
+      var description;
+      var kiwis;
+      var groups = [];
+      var lastGroup;
+      for (var i = 0; i < foundGroups.length; i++) {
+        id = foundGroups[i].groupId;
+        name = foundGroups[i].name;
+        description = foundGroups[i].description;
+        kiwis = { id: foundGroups[i].kiwiId, title: foundGroups[i].kiwiTitle };
+        lastGroup = groups[groups.length - 1];
+        // since query ordered by title, no need to loop through whole array, 
+        // just look at last element.
+        if (!lastGroup || lastGroup.id !== id) {
+          groups.push({
+            id: id,
+            name: name,
+            description: description,
+            kiwis: [kiwis]
+          })
+        } else {
+          lastGroup.kiwis.push(kiwis);
+        }
+      }
+      console.log('USER GROUPS', groups);
+      res.send({ groups: groups });
     })
     .catch(function (err) {
       next({ error: err, status: 500 });
@@ -76,24 +103,71 @@ module.exports = {
     dbRequest.queryAsync(query.getAllData(req.user.email))
     .then(function (foundData) {
       // manipulate foundData into nested JSON object to send
-      // {group1: kiwi1: [{date: 2, value: 1}], kiwi2: [], group2: ...}
-      var toSend = {};
-      var row;
-      var groupName;
-      var kiwiTitle;
-      var kiwiData;
+      // [{group1: [{kiwi1:, name:, values:[{date:, value:}]}, kiwi2: {}}]
+      // receive array of objects that looks like:
+      // [{groupId, groupName, description, kiwiId, kiwiTitle, date, value}]
+      // ordered by groupId, then kiwiId
+      console.log('FOUND DATA', foundData);
+      var id;
+      var name;
+      var description;
+      var kiwis;
+      var lastKiwi;
+      var groups = [];
+      var lastGroup;
       for (var i = 0; i < foundData.length; i++) {
-        row = foundData[i];
-        groupName = row.groupName;
-        kiwiTitle = row.kiwiTitle;
-        kiwiData = { date: row.date, value: row.value };
-        // groups
-        toSend[groupName] = toSend[groupName] || {};
-        toSend[groupName][kiwiTitle] = toSend[groupName][kiwiTitle] || [];
-        toSend[groupName][kiwiTitle].push(kiwiData);
+        id = foundData[i].groupId;
+        name = foundData[i].name;
+        description = foundData[i].description;
+        kiwis = { 
+          id: foundData[i].kiwiId, 
+          title: foundData[i].kiwiTitle, 
+          values: [{ 
+            date: foundData[i].date, 
+            value: foundData[i].value 
+          }]
+        };
+        lastGroup = groups[groups.length - 1];
+        // since query ordered by title, no need to loop through whole array, 
+        // just look at last element.
+        if (!lastGroup || lastGroup.id !== id) {
+          groups.push({
+            id: id,
+            name: name,
+            description: description,
+            kiwis: [kiwis]
+          })
+        } else {
+          lastKiwi = lastGroup.kiwis[lastGroup.kiwis.length - 1];
+          if (!lastKiwi || lastKiwi.id !== kiwis.id) {
+            lastGroup.kiwis.push(kiwis);
+          } else {
+            lastGroup.kiwis = [kiwis];
+          }
+        }
       }
-      res.send(toSend);
+      console.log('USER GROUPS', groups);
+      res.send({ groups: groups });
     })
+
+      // // {group1: kiwi1: [{date: 2, value: 1}], kiwi2: [], group2: ...}
+      // var toSend = {};
+      // var row;
+      // var groupName;
+      // var kiwiTitle;
+      // var kiwiData;
+      // for (var i = 0; i < foundData.length; i++) {
+      //   row = foundData[i];
+      //   groupName = row.groupName;
+      //   kiwiTitle = row.kiwiTitle;
+      //   kiwiData = { date: row.date, value: row.value };
+      //   // groups
+      //   toSend[groupName] = toSend[groupName] || {};
+      //   toSend[groupName][kiwiTitle] = toSend[groupName][kiwiTitle] || [];
+      //   toSend[groupName][kiwiTitle].push(kiwiData);
+      // }
+      // res.send(toSend);
+    // })
     .catch(function (err) {
       next({ error: err, status: 500 });
     })

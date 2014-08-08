@@ -40,19 +40,24 @@ var qGetUserKiwisAndValues = function (email) {
 
 var qGetUserGroups = function (email) {
   var query =
-  "SELECT g.*\n" +
+  "SELECT g.id as groupId, g.name as name, g.description as description, k.id as kiwiId, k.title as kiwiTitle\n" +
   "FROM dbo.users u\n" +
   "JOIN dbo.groups g\n" +
   "ON u.id = g.user_id\n" +
+  "JOIN dbo.kiwi_group kg\n" +
+  "ON kg.group_id = g.id\n" +
+  "JOIN dbo.kiwis k\n" +
+  "ON k.id = kg.kiwi_id\n" +
   "WHERE u.email = '" + email + "'\n" +
-  "AND g.deleted = 0;";
+  "AND g.deleted = 0\n" +
+  "ORDER BY g.id;";
 
   return query;
 };
 
 var qGetAllData = function (email) {
   var query =
-  "SELECT g.name as groupName, k.title as kiwiTitle, kv.date as date, kv.value as value\n" +
+  "SELECT g.id as groupId, g.name as groupName, g.description as description, k.id as kiwiId, k.title as kiwiTitle, kv.date as date, kv.value as value\n" +
   "FROM dbo.users u\n" +
   "JOIN dbo.groups g\n" +
   "ON u.id = g.user_id\n" +
@@ -64,7 +69,8 @@ var qGetAllData = function (email) {
   "ON k.id = kv.kiwi_id\n" +
   "WHERE u.email = '" + email + "'\n" +
   "AND g.deleted = 0\n" +
-  "AND k.deleted = 0;";
+  "AND k.deleted = 0\n" +
+  "ORDER BY g.id, k.id;";
 
   return query;
 };
