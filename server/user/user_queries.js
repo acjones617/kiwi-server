@@ -13,7 +13,19 @@ var qGetUserInfo = function (email) {
 
 var qGetUserKiwis = function (email) {
   var query =
-  "SELECT k.title as title, k.url as url, kv.date as date, kv.value as value\n" +
+  "SELECT k.id as kiwiId, k.title as title, k.url as url\n" +
+  "FROM dbo.users u\n" +
+  "JOIN dbo.kiwis k\n" +
+  "ON u.id = k.user_id\n" +
+  "WHERE u.email = '" + email + "'\n" +
+  "AND k.deleted = 0;";
+
+  return query;
+};
+
+var qGetUserKiwisAndValues = function (email) {
+  var query =
+  "SELECT k.id as kiwiId, k.title as title, k.url as url, kv.date as date, kv.value as value\n" +
   "FROM dbo.users u\n" +
   "JOIN dbo.kiwis k\n" +
   "ON u.id = k.user_id\n" +
@@ -21,7 +33,7 @@ var qGetUserKiwis = function (email) {
   "ON k.id = kv.kiwi_id\n" +
   "WHERE u.email = '" + email + "'\n" +
   "AND k.deleted = 0\n" +
-  "ORDER BY k.title;";
+  "ORDER BY k.id;";
 
   return query;
 };
@@ -60,6 +72,7 @@ var qGetAllData = function (email) {
 var queries = {
   getUserInfo: qGetUserInfo,
   getUserKiwis: qGetUserKiwis,
+  getUserKiwisAndValues: qGetUserKiwisAndValues,
   getUserGroups: qGetUserGroups,
   getAllData: qGetAllData
 };

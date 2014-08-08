@@ -18,21 +18,34 @@ module.exports = {
   getUserKiwis: function (req, res, next) {
     dbRequest.queryAsync(query.getUserKiwis(req.user.email))
     .then(function (foundKiwis) {
+      res.send({ kiwis: foundKiwis });
+    })
+    .catch(function (err) {
+      next({ error: err, status: 500 });
+    })
+  },
+
+  getUserKiwisAndValues: function (req, res, next) {
+    dbRequest.queryAsync(query.getUserKiwisAndValues(req.user.email))
+    .then(function (foundKiwis) {
       console.log('FOUND KIWIS', foundKiwis);
+      var id;
       var title;
       var url;
       var values;
       var kiwis = [];
       var lastKiwi;
       for (var i = 0; i < foundKiwis.length; i++) {
+        id = foundKiwis[i].kiwiId;
         title = foundKiwis[i].title;
         url = foundKiwis[i].url;
         values = { value: foundKiwis[i].value, date: foundKiwis[i].date };
         lastKiwi = kiwis[kiwis.length - 1];
         // since query ordered by title, no need to loop through whole array, 
         // just look at last element.
-        if (!lastKiwi || lastKiwi.title !== title) {
+        if (!lastKiwi || lastKiwi.id !== id) {
           kiwis.push({
+            id: id,
             title: title,
             url: url,
             values: [values]

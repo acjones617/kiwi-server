@@ -9,6 +9,9 @@ module.exports = function(router) {
   router.route('/kiwis')
     .get(controller.getUserKiwis);
 
+  router.route('/allValues')
+    .get(controller.getUserKiwisAndValues);
+
   router.route('/groups')
     .get(controller.getUserGroups);
 
