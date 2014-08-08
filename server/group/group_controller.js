@@ -26,6 +26,54 @@ module.exports = {
     });
   },
 
+  getData: function(req, res, next) {
+    dbRequest.queryAsync(query.getData(req.params.groupId))
+    .then(function (foundData) {
+      // same as get all data, except we only have one group
+      console.log('FOUND DATA', foundData);
+      if (foundData.length === 0) {
+        return next({ error: 'No public group with groupId = ' + req.params.groupId }, 403);
+      }
+      var kiwiId;
+      var kiwiTitle;
+      var value;
+      var date;
+      var lastKiwi;
+      var allData = {
+        id: foundData[0].groupId,
+        name: foundData[0].groupIdName,
+        description: foundData[0].description,
+        kiwis: []
+      };
+      for (var i = 0; i < foundData.length; i++) {
+        if (foundData[i].kiwiId) {
+          kiwiId = foundData[i].kiwiId;
+          kiwiTitle = foundData[i].kiwiTitle;
+          value = foundData[i].value;
+          date = foundData[i].date;
+          lastKiwi = allData.kiwis[allData.kiwis.length - 1];
+          if (!lastKiwi || lastKiwi.id !== kiwiId) {
+            allData.kiwis.push({
+              id: kiwiId,
+              title: kiwiTitle,
+              values: [{
+                date: date,
+                value: value
+              }]
+            });
+          } else {
+            allData.kiwis.values.push({
+              date: date,
+              value: value
+            });
+          }
+        }
+      }
+      console.log('ALL DATA', allData);
+      res.send(allData);
+    })
+  },
+
   getKiwis: function (req, res, next) {
     dbRequest.queryAsync(query.getKiwisOfGroup(req.params.groupId))
     .then(function (foundKiwis) {
