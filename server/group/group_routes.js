@@ -10,7 +10,7 @@ module.exports = function(router) {
   router.route('/kiwis/:groupId')
     .get(controller.getKiwis)
     .post(controller.addKiwi)
-    .delete(controller.removeKiwi);
+    .put(controller.removeKiwi);
 
   router.route('/create')
     .post(controller.createGroup);

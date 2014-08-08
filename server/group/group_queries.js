@@ -40,20 +40,20 @@ var qEditGroupInfo = function (email, groupId, groupData) {
   return query;
 }
 
-var qAddKiwiToGroup = function (groupId, kiwiData) {
+var qAddKiwiToGroup = function (groupId, kiwiId) {
   var query =
   "INSERT INTO dbo.kiwi_group (group_id, kiwi_id)\n" +
-  "VALUES (" + groupId + "," + kiwiData.id + ");";
+  "VALUES (" + groupId + "," + kiwiId + ");";
 
   return query;
 }
 
-var qRemoveKiwiFromGroup = function (groupId, kiwiData) {
+var qRemoveKiwiFromGroup = function (groupId, kiwiId) {
   var query = 
   "DELETE dbo.kiwi_group\n" +
-  "WHERE groupId = " + groupId + "\n" +
-  "AND kiwiId = " + kiwiData.id + ";";
-
+  "WHERE group_id = " + groupId + "\n" +
+  "AND kiwi_id = " + kiwiId + ";";
+  console.log(query);
   return query;
 }
 

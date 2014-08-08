@@ -37,7 +37,7 @@ module.exports = {
   },
 
   addKiwi: function (req, res, next) {
-    dbRequest.queryAsync(query.addKiwiToGroup(req.params.groupId, req.body.kiwiData))
+    dbRequest.queryAsync(query.addKiwiToGroup(req.params.groupId, req.body.kiwiId))
     .then(function() {
       res.send(201);
     })
@@ -47,7 +47,7 @@ module.exports = {
   },
 
   removeKiwi: function(req, res, next) {
-    dbRequest.queryAsync(query.removeKiwiFromGroup(req.params.groupId, req.body.kiwiData))
+    dbRequest.queryAsync(query.removeKiwiFromGroup(req.params.groupId, req.body.kiwiId))
     .then(function() {
       res.send(201);
     })
