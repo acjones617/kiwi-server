@@ -34,10 +34,6 @@ describe('Group Controller', function () {
     expect(groupCtrl.addKiwi).toEqual(jasmine.any(Function));
   });
 
-  it('should have a removeKiwi method', function () {
-    expect(groupCtrl.removeKiwi).toEqual(jasmine.any(Function));
-  });
-
   it('should have a createGroup method', function () {
     expect(groupCtrl.createGroup).toEqual(jasmine.any(Function));
   });

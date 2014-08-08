@@ -7,8 +7,7 @@ groupRoutes(router); // extends 'router' with groupRoutes module
 var expectedAPI = {
   '/info/:groupId':     ['get', 'put'],
   '/kiwis/:groupId':    ['get', 'post', 'delete'],
-  '/create':            ['post'],
-  '/remove/:groupId':   ['put']
+  '/create':            ['post']
 };
 
 describe('Group Routes', function () {
