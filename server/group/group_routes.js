@@ -14,7 +14,4 @@ module.exports = function(router) {
 
   router.route('/create')
     .post(controller.createGroup);
-
-  router.route('/remove/:groupId')
-    .put(controller.removeGroup);
 };
