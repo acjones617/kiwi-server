@@ -11,8 +11,8 @@ module.exports = function(router) {
     .post(controller.addKiwiValue);
 
   router.route('/update')
-    .get(controller.getKiwiUpdates)
+    .get(controller.getKiwiUpdates);
 
-  router.route('/remove/:kiwiId')
-    .put(controller.removeKiwi);
+  router.route('/edit/:kiwiId')
+    .put(controller.editKiwi);
 };

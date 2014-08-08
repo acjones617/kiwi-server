@@ -75,8 +75,8 @@ module.exports = {
     })
   },
 
-  removeKiwi: function (req, res, next) {
-    dbRequest.queryAsync(query.removeKiwi(req.user.email, req.params.kiwiId))
+  editKiwi: function (req, res, next) {
+    dbRequest.queryAsync(query.editKiwi(req.user.email, req.params.kiwiId, req.body.kiwiData))
     .then(function() {
       res.send(201);
     })

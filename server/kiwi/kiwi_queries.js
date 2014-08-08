@@ -26,6 +26,28 @@ var qRemoveKiwi = function(email, kiwiId) {
   return query;
 };
 
+var qEditKiwi = function(email, kiwiId, kiwiData) {
+  console.log(kiwiData);
+  if (kiwiData.deleted === true) {
+    kiwiData.deleted = 1;
+  } else {
+    kiwiData.deleted = 0;
+  }
+
+  var query =
+  "UPDATE dbo.kiwis\n" +
+  "SET title = '" + kiwiData.title + "',\n" +
+  "url = '" + kiwiData.url + "',\n" +
+  "deleted = " + kiwiData.deleted + "\n" +
+  "FROM dbo.kiwis k\n" +
+  "JOIN dbo.users u\n" +
+  "ON k.user_id = u.id\n" +
+  "WHERE u.email = '" + email + "'\n" +
+  "AND k.id = " + kiwiData.id + ";";
+
+  return query;
+};
+
 var qAddKiwiValue = function(kiwiId, kiwiData) {
   var query;
 
@@ -75,10 +97,11 @@ var qKiwiNeedingUpdates = function() {
 }
 
 var queries = {
-  addKiwi: qAddKiwi,
-  removeKiwi: qRemoveKiwi,
-  addKiwiValue: qAddKiwiValue,
-  getKiwiValues: qGetKiwiValues,
+  addKiwi:            qAddKiwi,
+  removeKiwi:         qRemoveKiwi,
+  editKiwi:           qEditKiwi,
+  addKiwiValue:       qAddKiwiValue,
+  getKiwiValues:      qGetKiwiValues,
   checkKiwiExistence: qCheckKiwiExistence,
   kiwiNeedingUpdates: qKiwiNeedingUpdates
 };
