@@ -100,9 +100,10 @@ var qInsertKiwi =
     "WHERE email = '" + mockData.signup.email + "';";
 
 
-var qInsertKiwiValue = 
-  "INSERT INTO dbo.kiwi_values (kiwi_id, value)\n" +
-    "SELECT k.id, " + mockData.kiwi.kiwiData.value + "\n" +
+var qInsertKiwiValue = function(mockData) {
+  var query = 
+  "INSERT INTO dbo.kiwi_values (kiwi_id, value, date)\n" +
+    "SELECT k.id, " + mockData.kiwi.kiwiData.value + ", '" + mockData.kiwi.kiwiData.date + "'\n" +
     "FROM dbo.kiwis k\n" +
     "JOIN dbo.users u\n" +
     "ON u.id = k.user_id\n" +
@@ -110,6 +111,9 @@ var qInsertKiwiValue =
     "AND k.path ='" + mockData.kiwi.kiwiData.path + "'\n" +
     "AND k.url ='" + mockData.kiwi.kiwiData.url + "'\n" +
     "AND email = '" + mockData.signup.email + "';";
+
+  return query;
+}
 
 var qInsertGroup = 
   "INSERT INTO dbo.groups (user_id, name, description)\n" +
@@ -128,32 +132,6 @@ var qInsertKiwiGroup =
     "JOIN dbo.kiwis k\n" +
     "ON u.id = k.user_id\n" +
     "WHERE u.email = '" + mockData.signup.email + "';";
-
-var qInsertKiwiValue = 
-  "INSERT INTO dbo.kiwi_values (kiwi_id, value)\n" +
-    "SELECT k.id, " + mockData.kiwi.kiwiData.value + "\n" +
-    "FROM dbo.kiwis k\n" +
-    "JOIN dbo.users u\n" +
-    "ON u.id = k.user_id\n" +
-    "WHERE k.title = '" + mockData.kiwi.kiwiData.title + "'\n" +
-    "AND k.path ='" + mockData.kiwi.kiwiData.path + "'\n" +
-    "AND k.url ='" + mockData.kiwi.kiwiData.url + "'\n" +
-    "AND email = '" + mockData.signup.email + "';";
-
-  "IF OBJECT_ID('dbo.kiwi_group', 'U') IS NOT NULL\n" +
-    "DROP TABLE dbo.kiwi_group;\n" +
-  "IF OBJECT_ID('dbo.groups', 'U') IS NOT NULL\n" +
-    "DROP TABLE dbo.groups;\n" +
-  "IF OBJECT_ID('dbo.kiwi_values', 'U') IS NOT NULL\n" +
-    "DROP TABLE dbo.kiwi_values;\n" +
-  "IF OBJECT_ID('dbo.kiwis', 'U') IS NOT NULL\n" +
-    "DROP TABLE dbo.kiwis;\n" +
-  "IF OBJECT_ID('dbo.users', 'U') IS NOT NULL\n" +
-    "DROP TABLE dbo.users;\n" +
-  "IF OBJECT_ID('dbo.auth_strategy', 'U') IS NOT NULL\n" +
-    "DROP TABLE dbo.auth_strategy;\n" +
-  "IF OBJECT_ID('dbo.account_level', 'U') IS NOT NULL\n" +
-    "DROP TABLE dbo.account_level;";
 
 var qSelectAll =
   "SELECT al.*, auth.*, u.*, k.*, kv.*, g.*, kg.* FROM dbo.users u\n" +

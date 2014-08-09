@@ -1,11 +1,16 @@
 'use strict';
 
 var query       = require('./schema_queries'),
+    mockData    = require('./schema_mockData'),
     dbRequest   = require('../main/db_connection'),
     request     = require('supertest'),
     authData    = require('../main/config_db_development');
 
 module.exports = function(app) {
+  var pad = function(num) {
+    return num < 10 ? '0' + num.toString() : num.toString();
+  }
+
   return {
     rebuild: function(req, res) {
       dbRequest.queryAsync(query.dropTables)
@@ -46,17 +51,23 @@ module.exports = function(app) {
         // create new user
         request(app)
         .post('/auth/signup')
-        .send({ email: 'test@test.com', password: 'verysecure password' })
+        .send(mockData.signup)
         .end(function (err, response) {
           // sample user created, create sample kiwi
           console.log('dummy user created!!');
           dbRequest.queryAsync(query.insertKiwi)
           .then(function() {
             console.log('insert seed kiwi success!!!');
-            return dbRequest.queryAsync(query.insertKiwiValue);
+            return dbRequest.queryAsync(query.insertKiwiValue(mockData));
           })
           .then(function() {
             console.log('insert seed kiwi value success!!!');
+            // insert 25 other kiwi values...
+            for (var i = 0; i < 25; i++) {
+              mockData.kiwi.kiwiData.date = "2014-05-" + pad(i + 2) + " 00:00:00";
+              mockData.kiwi.kiwiData.value = Math.random() * 1000;
+              dbRequest.query(query.insertKiwiValue(mockData));
+            }
             return dbRequest.queryAsync(query.insertGroup);
           })
           .then(function() {

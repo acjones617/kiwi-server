@@ -17,6 +17,7 @@ module.exports = exports = {
    *  Add decoded token with user email to req body
    */
   auth: function(req, res, next) {
+    res.header('Cache-Control', 'no-cache');
     var token = (req.body && req.body.access_token) || (req.query && req.query.access_token) || req.headers['x-access-token'];
     var secret = process.env.SECRET_JWT || 'super secret token';
     if (!token) {
