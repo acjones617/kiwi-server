@@ -7,6 +7,9 @@ module.exports = function(router) {
     .get(controller.getGroupInfo)
     .put(controller.editGroupInfo);
 
+  router.route('/data/:groupId')
+    .get(controller.getData);
+
   router.route('/kiwis/:groupId')
     .get(controller.getKiwis)
     .post(controller.addKiwi)
