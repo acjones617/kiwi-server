@@ -107,26 +107,33 @@ module.exports = {
       // receive array of objects that looks like:
       // [{groupId, groupName, description, kiwiId, kiwiTitle, date, value}]
       // ordered by groupId, then kiwiId
+      // left joins so there may be groups with no kiwis in them
       console.log('FOUND DATA', foundData);
       var id;
       var name;
       var description;
+      var isPublic;
       var kiwis;
       var lastKiwi;
       var groups = [];
       var lastGroup;
       for (var i = 0; i < foundData.length; i++) {
         id = foundData[i].groupId;
-        name = foundData[i].name;
+        name = foundData[i].groupName;
         description = foundData[i].description;
-        kiwis = { 
-          id: foundData[i].kiwiId, 
-          title: foundData[i].kiwiTitle, 
-          values: [{ 
-            date: foundData[i].date, 
-            value: foundData[i].value 
-          }]
-        };
+        isPublic = foundData[i].is_public;
+        if (foundData[i].kiwiId) {
+          kiwis = { 
+            id: foundData[i].kiwiId, 
+            title: foundData[i].kiwiTitle, 
+            values: [{ 
+              date: foundData[i].date, 
+              value: foundData[i].value 
+            }]
+          };
+        } else {
+          kiwis = null;
+        }
         lastGroup = groups[groups.length - 1];
         // since query ordered by title, no need to loop through whole array, 
         // just look at last element.
@@ -135,7 +142,8 @@ module.exports = {
             id: id,
             name: name,
             description: description,
-            kiwis: [kiwis]
+            isPublic: isPublic,
+            kiwis: kiwis ? [kiwis] : []
           })
         } else {
           lastKiwi = lastGroup.kiwis[lastGroup.kiwis.length - 1];

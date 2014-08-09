@@ -57,19 +57,18 @@ var qGetUserGroups = function (email) {
 
 var qGetAllData = function (email) {
   var query =
-  "SELECT g.id as groupId, g.name as groupName, g.description as description, k.id as kiwiId, k.title as kiwiTitle, kv.date as date, kv.value as value\n" +
+  "SELECT g.id as groupId, g.name as groupName, g.description as description, g.is_public as is_public, k.id as kiwiId, k.title as kiwiTitle, kv.date as date, kv.value as value\n" +
   "FROM dbo.users u\n" +
   "JOIN dbo.groups g\n" +
   "ON u.id = g.user_id\n" +
-  "JOIN dbo.kiwi_group kg\n" +
+  "LEFT JOIN dbo.kiwi_group kg\n" +
   "ON kg.group_id = g.id\n" +
-  "JOIN dbo.kiwis k\n" +
+  "LEFT JOIN dbo.kiwis k\n" +
   "ON k.id = kg.kiwi_id\n" +
-  "JOIN dbo.kiwi_values kv\n" +
+  "LEFT JOIN dbo.kiwi_values kv\n" +
   "ON k.id = kv.kiwi_id\n" +
   "WHERE u.email = '" + email + "'\n" +
   "AND g.deleted = 0\n" +
-  "AND k.deleted = 0\n" +
   "ORDER BY g.id, k.id;";
 
   return query;

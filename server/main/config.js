@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var bodyParser     = require('body-parser'),
     middle         = require('./middleware'),
