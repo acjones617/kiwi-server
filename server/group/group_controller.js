@@ -30,7 +30,6 @@ module.exports = {
     dbRequest.queryAsync(query.getData(req.params.groupId))
     .then(function (foundData) {
       // same as get all data, except we only have one group
-      console.log('FOUND DATA', foundData);
       if (foundData.length === 0) {
         return next({ error: 'No public group with groupId = ' + req.params.groupId }, 403);
       }
@@ -62,14 +61,13 @@ module.exports = {
               }]
             });
           } else {
-            allData.kiwis.values.push({
+            lastKiwi.values.push({
               date: date,
               value: value
             });
           }
         }
       }
-      console.log('ALL DATA', allData);
       res.send(allData);
     })
   },
