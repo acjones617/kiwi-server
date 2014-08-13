@@ -4,7 +4,8 @@ var controller = require('./user_controller');
 
 module.exports = function(router) {
   router.route('/info')
-    .get(controller.getUserInfo);
+    .get(controller.getUserInfo)
+    .put(controller.updateUserInfo);
 
   router.route('/kiwis')
     .get(controller.getUserKiwis);

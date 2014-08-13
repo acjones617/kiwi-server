@@ -15,6 +15,18 @@ module.exports = {
     });
   },
 
+  updateUserInfo: function(req, res, next) {
+    res.send(201);
+    // unsure with what final functionality will be:
+    // dbRequest.queryAsync(query.updateUserInfo(req.user.email, req.body.settings))
+    // .then(function () {
+    //   res.send(201);
+    // })
+    // .catch(function (err) {
+    //   next({ error: err, status: 500 });
+    // })
+  },
+
   getUserKiwis: function (req, res, next) {
     dbRequest.queryAsync(query.getUserKiwis(req.user.email))
     .then(function (foundKiwis) {
@@ -40,7 +52,7 @@ module.exports = {
         url = foundKiwis[i].url;
         values = { value: foundKiwis[i].value, date: foundKiwis[i].date };
         lastKiwi = kiwis[kiwis.length - 1];
-        // since query ordered by title, no need to loop through whole array, 
+        // since query ordered by kiwiId, no need to loop through whole array, 
         // just look at last element.
         if (!lastKiwi || lastKiwi.id !== id) {
           kiwis.push({

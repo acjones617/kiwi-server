@@ -31,7 +31,7 @@ module.exports = {
     .then(function (foundData) {
       // same as get all data, except we only have one group
       if (foundData.length === 0) {
-        return next({ error: 'No public group with groupId = ' + req.params.groupId }, 403);
+        return next({ error: 'No public group with groupId = ' + req.params.groupId }, 404);
       }
       var kiwiId;
       var kiwiTitle;

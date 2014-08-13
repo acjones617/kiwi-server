@@ -11,6 +11,16 @@ var qGetUserInfo = function (email) {
   return query;
 };
 
+var qUpdateUserInfo = function(email, settings) {
+  var query =
+  "UPDATE dbo.users\n" +
+  "SET email = '" + settings.email + "'\n"
+  "FROM dbo.users\n" +
+  "WHERE email = '" + email + "'\n";
+
+  return query;
+}
+
 var qGetUserKiwis = function (email) {
   var query =
   "SELECT k.id as kiwiId, k.title as title, k.url as url\n" +
@@ -76,6 +86,7 @@ var qGetAllData = function (email) {
 
 var queries = {
   getUserInfo: qGetUserInfo,
+  updateUserInfo: qUpdateUserInfo,
   getUserKiwis: qGetUserKiwis,
   getUserKiwisAndValues: qGetUserKiwisAndValues,
   getUserGroups: qGetUserGroups,
